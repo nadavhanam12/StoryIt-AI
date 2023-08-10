@@ -1,0 +1,18 @@
+{
+    "name": "HandScene",
+    "rootNamespace": "",
+    "references": [
+        "GUID:5117158a97c273f409cac06b58c2c99d",
+        "GUID:723976fd70f546c44b0608e5ec79ddf7",
+        "GUID:6055be8ebefd69e48b49212b09b47b2f"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

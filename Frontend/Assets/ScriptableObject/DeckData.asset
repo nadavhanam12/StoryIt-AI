@@ -1,0 +1,81 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3871835240ac17d46af690c58472adb2, type: 3}
+  m_Name: DeckData
+  m_EditorClassIdentifier: 
+  CardsData:
+  - Id: 1
+    Picture: {fileID: 2800000, guid: f30f764631ee7234f9c2af1a2a70e9c0, type: 3}
+  - Id: 2
+    Picture: {fileID: 2800000, guid: 85463f9ac40bf5547b13e7abf37e0802, type: 3}
+  - Id: 3
+    Picture: {fileID: 2800000, guid: 6bfb22501df423448a27cae0056a9424, type: 3}
+  - Id: 4
+    Picture: {fileID: 2800000, guid: bf312247df38d7645b9832f992fbca36, type: 3}
+  - Id: 5
+    Picture: {fileID: 2800000, guid: 9c95eba70426eaa408fef87f35dad642, type: 3}
+  - Id: 6
+    Picture: {fileID: 2800000, guid: 5bb461f107d32ba47a820f19167bf199, type: 3}
+  - Id: 7
+    Picture: {fileID: 2800000, guid: c44126a13044754459e266de56284e62, type: 3}
+  - Id: 8
+    Picture: {fileID: 2800000, guid: 9ffb17771d7d7fb42b921232892db53a, type: 3}
+  - Id: 9
+    Picture: {fileID: 2800000, guid: 986cd92c85f56cb4cbe059716ca77b98, type: 3}
+  - Id: 10
+    Picture: {fileID: 2800000, guid: 1b1e46a18e015254eb5b702e2001db54, type: 3}
+  - Id: 11
+    Picture: {fileID: 2800000, guid: 5ef3637c7f86e1e4ebf3738b753ebdfd, type: 3}
+  - Id: 12
+    Picture: {fileID: 2800000, guid: f472490f631ae6943b55d5fbe92b59ff, type: 3}
+  - Id: 13
+    Picture: {fileID: 2800000, guid: d7fa13e8f6476a14aa9b9d6ad1884130, type: 3}
+  - Id: 14
+    Picture: {fileID: 2800000, guid: fe4cac7ead4ae4e4eb0717be6050b005, type: 3}
+  - Id: 15
+    Picture: {fileID: 2800000, guid: 1e8e391db765b9545b5bbaabc139d8e9, type: 3}
+  - Id: 16
+    Picture: {fileID: 2800000, guid: 5eecfcbc6371a6840be3a57244981110, type: 3}
+  - Id: 17
+    Picture: {fileID: 2800000, guid: 5ff8b0fa7348dcd4d9aca5c97e986dd3, type: 3}
+  - Id: 17
+    Picture: {fileID: 2800000, guid: 9e1de460e55072649a916ba78b2d1212, type: 3}
+  - Id: 17
+    Picture: {fileID: 2800000, guid: 6585aad3678dc9749a2a542d864f9860, type: 3}
+  - Id: 17
+    Picture: {fileID: 2800000, guid: 96ec4910c911d8649957fe83b754f535, type: 3}
+  - Id: 17
+    Picture: {fileID: 2800000, guid: 78d8c2850ddb6a548a7cca1e58260b2e, type: 3}
+  - Id: 17
+    Picture: {fileID: 2800000, guid: bb48428cc5406904fadc210a24cf4d18, type: 3}
+  - Id: 17
+    Picture: {fileID: 2800000, guid: 014327cf3dc9928489c8d062ff0eaf47, type: 3}
+  - Id: 17
+    Picture: {fileID: 2800000, guid: 9321d43417c6a094984dd79134f5f699, type: 3}
+  - Id: 17
+    Picture: {fileID: 2800000, guid: 1a327dc6e1bffb941aaffb5668490372, type: 3}
+  - Id: 17
+    Picture: {fileID: 2800000, guid: 97cf9c63db378d841a0b3ed0d300373b, type: 3}
+  - Id: 17
+    Picture: {fileID: 2800000, guid: 241e952d409ead74580f86323c0f30cb, type: 3}
+  - Id: 17
+    Picture: {fileID: 2800000, guid: 4c732ad808b39364d8e78ca4a2e9b686, type: 3}
+  - Id: 17
+    Picture: {fileID: 2800000, guid: 27e779dee2b849540bf667240141df01, type: 3}
+  - Id: 17
+    Picture: {fileID: 2800000, guid: 4867f56773c6091499299a4faca0bffd, type: 3}
+  - Id: 17
+    Picture: {fileID: 2800000, guid: 85a7e11ff2536bd439df08c0004d1b72, type: 3}
+  - Id: 17
+    Picture: {fileID: 2800000, guid: bd103758ca9149344860b1286788d714, type: 3}
+  - Id: 17
+    Picture: {fileID: 2800000, guid: a0b9ff125d7dd9243b4e6e10cd581b50, type: 3}
