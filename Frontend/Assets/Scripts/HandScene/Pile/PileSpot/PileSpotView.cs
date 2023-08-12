@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PileSpotView : MonoBehaviour
 {
@@ -9,6 +10,7 @@ public class PileSpotView : MonoBehaviour
     [SerializeField] float m_initRotation;
     [SerializeField] Vector2 m_cardsSelectionPosition;
     [SerializeField] Vector2 m_cardsChoosenPosition;
+
     float m_switchStateDuration;
     RectTransform m_rectTransform;
 
@@ -65,4 +67,6 @@ public class PileSpotView : MonoBehaviour
         // pilling the card animation
 
     }
+
+
 }

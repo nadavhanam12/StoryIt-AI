@@ -1,4 +1,5 @@
 
+using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -35,7 +36,7 @@ public class PileSpot : MonoBehaviour
     internal void ApplyIdleState()
     {
         m_viewState = CardsViewState.Idle;
-        m_button.interactable = false;
+        ToggleInteractable(false);
 
         m_pileSpotView.ApplyIdleView();
     }
@@ -45,7 +46,7 @@ public class PileSpot : MonoBehaviour
             return;
 
         m_viewState = CardsViewState.CardsSelection;
-        m_button.interactable = true;
+        ToggleInteractable(true);
 
         m_pileSpotView.ApplyCardsSelectionView();
         m_spotDetailsView.ShowIndex();
@@ -54,10 +55,14 @@ public class PileSpot : MonoBehaviour
     internal void ApplyCardChoosenState(bool isChoosen)
     {
         m_viewState = CardsViewState.CardChoosen;
-        m_button.interactable = false;
-
+        ToggleInteractable(false);
 
         m_pileSpotView.ApplyCardChoosenView(isChoosen);
+    }
+
+    public void ToggleInteractable(bool isInteractable)
+    {
+        m_button.interactable = isInteractable;
     }
 
     internal void PileCard()
@@ -86,4 +91,19 @@ public class PileSpot : MonoBehaviour
         //print("GetLocalHitPos: " + relativePosition);
         return relativePosition;
     }
+
+    internal void ToggleAvatar(bool showDetails)
+    {
+        m_spotDetailsView.ToggleAvatar(showDetails);
+        ToggleInteractable(false);
+    }
+
+    internal void ToggleRightSpot(bool showRightSpot)
+    {
+        m_handCard.HighlightCard();
+    }
+
+
+
+
 }

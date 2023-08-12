@@ -53,4 +53,14 @@ public class TokenController : MonoBehaviour
     {
         m_tokensManager.OnTokenDropped(m_playerData.Id, cardId, relativeHitPosition);
     }
+
+    internal void PlaceToken(Vector2 spotScreenPosition, Vector2 hitRelativePosition)
+    {
+        m_tokenView.PlaceToken(spotScreenPosition, hitRelativePosition);
+    }
+
+    internal void HighlightRightGuess()
+    {
+        m_tokenView.HighlightRightGuess();
+    }
 }

@@ -13,7 +13,7 @@ public class SpotDetailsView : MonoBehaviour
     float m_switchStateDuration;
     public void Init(int index, float switchStateDuration)
     {
-        m_avatarImage.gameObject.SetActive(false);
+        ToggleAvatar(false);
         m_indexText.gameObject.SetActive(false);
 
         m_indexText.text = (1 + index).ToString();
@@ -26,16 +26,18 @@ public class SpotDetailsView : MonoBehaviour
         curColor.a = 0;
         m_avatarImage.color = curColor;
     }
-    public void ShowAvater()
+    public void ToggleAvatar(bool showDetails)
     {
-        m_avatarImage.gameObject.SetActive(true);
-        LeanTween.alpha(m_avatarImage.rectTransform, 1.0f, m_switchStateDuration);
+        m_avatarImage.gameObject.SetActive(showDetails);
+        float tagetAlpha = 0.0f;
+        if (showDetails)
+            tagetAlpha = 1.0f;
+        LeanTween.alpha(m_avatarImage.rectTransform, tagetAlpha, m_switchStateDuration);
     }
     public async void ShowIndex()
     {
         await Task.Delay((int)(m_switchStateDuration * 1000));
         m_indexText.gameObject.SetActive(true);
     }
-
 
 }

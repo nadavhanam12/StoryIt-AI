@@ -8,19 +8,17 @@ using UnityEngine;
 public class PileController : NotificationListener
 {
     [SerializeField] PileView m_pileView;
-    List<PileSpot> m_pileSpots;
     [SerializeField] float m_switchStateDuration;
     [SerializeField] PileShuffleController m_pileShuffleController;
     CardsViewState m_viewState;
-    List<CardData> m_cards;
     bool m_onStateChange;
     List<PlayerData> m_playersData;
+    List<PileSpot> m_pileSpots;
 
     public void Init(List<PlayerData> playersData)
     {
         m_playersData = playersData;
         m_viewState = CardsViewState.Idle;
-        m_cards = new List<CardData>();
 
         InitSpots();
         m_pileView.Init(m_pileSpots, m_switchStateDuration);
@@ -57,6 +55,9 @@ public class PileController : NotificationListener
             case NotificationType.StateGuessingCard:
                 ShuffleAndShowCards((StateGuessingCardData)data.Args);
                 break;
+            case NotificationType.StateShowingResults:
+                ShowPilesDetails((StateShowingResultsData)data.Args);
+                break;
         }
     }
     async void ShuffleAndShowCards(StateGuessingCardData stateGuessingCardData)
@@ -67,6 +68,16 @@ public class PileController : NotificationListener
         await Task.Delay((int)m_pileShuffleController.VideoLength * 1000);
         SetPileCards(stateGuessingCardData);
         ApplyCardsSelectionState();
+    }
+
+    void ShowPilesDetails(StateShowingResultsData stateShowingResultsData)
+    {
+        for (int i = 0; i < m_pileSpots.Count; i++)
+            m_pileSpots[i].ToggleAvatar(true);
+
+        PileSpot pileSpot = GetSpotByCardId(stateShowingResultsData.RightCardId);
+        if (pileSpot != null)
+            pileSpot.ToggleRightSpot(true);
     }
 
     internal void SpotClicked(int spotIndex)
@@ -152,6 +163,31 @@ public class PileController : NotificationListener
                 return playerData.Avatar;
             }
         }
+        return null;
+    }
+
+
+
+    internal Vector2 GetSpotPosition(int cardId)
+    {
+        PileSpot PileSpot = GetSpotByCardId(cardId);
+        if (PileSpot == null)
+        {
+            print("GetSpotPosition: not found, card id: " + cardId);
+            return Vector2.zero;
+        }
+        // Vector3 screenPosition = RectTransformUtility.WorldToScreenPoint
+        //     (m_camera, PileSpot.transform.position);
+        Vector2 screenPosition = PileSpot.transform.position;
+        screenPosition -= new Vector2(Screen.width, Screen.height) / 2;
+        return screenPosition;
+    }
+
+    PileSpot GetSpotByCardId(int cardId)
+    {
+        foreach (PileSpot pileSpot in m_pileSpots)
+            if (pileSpot.GetCardId() == cardId)
+                return pileSpot;
         return null;
     }
 }

@@ -7,10 +7,13 @@ using UnityEngine;
 public class TokensManager : NotificationListener
 {
     [SerializeField] PlayerWebActions m_playerWebActions;
+    [SerializeField] PileController m_pileController;
+
     [SerializeField] RectTransform m_bgImage;
     [SerializeField] float m_animDuration;
     List<TokenController> m_tokens;
     int m_playerId;
+
     protected override void OnNotificationRecived(NotificationData data)
     {
         switch (data.Type)
@@ -29,7 +32,7 @@ public class TokensManager : NotificationListener
                 PlayerGuessedCard((PlayerGuessCardData)data.Args);
                 break;
             case NotificationType.StateShowingResults:
-                PlaceTokens();
+                PlaceTokens((StateShowingResultsData)data.Args);
                 break;
         }
     }
@@ -81,23 +84,41 @@ public class TokensManager : NotificationListener
     }
 
 
-    void PlaceTokens()
+    void PlaceTokens(StateShowingResultsData stateShowingResultsData)
     {
-        throw new NotImplementedException();
+        int rightCardId = stateShowingResultsData.RightCardId;
+        List<PlayerGuessCardData> playersGuesses = stateShowingResultsData.PlayersGuesses;
+
+        Vector2 spotScreenPosition;
+        TokenController tokenController;
+        foreach (PlayerGuessCardData playerGuessCardData in playersGuesses)
+        {
+            spotScreenPosition = m_pileController.GetSpotPosition(playerGuessCardData.CardId);
+            tokenController = GetTokenByPlayerId(playerGuessCardData.PlayerId);
+            tokenController.PlaceToken(spotScreenPosition, playerGuessCardData.HitRelativePosition);
+            if (playerGuessCardData.CardId == rightCardId)
+            {
+                tokenController.HighlightRightGuess();
+            }
+        }
     }
 
-
-    void PlayerGuessedCard(PlayerGuessCardData args)
+    TokenController GetTokenByPlayerId(int playerId)
     {
         for (int i = 0; i < m_tokens.Count; i++)
         {
-            if (m_tokens[i].GetPlayerId() == args.PlayerId)
+            if (m_tokens[i].GetPlayerId() == playerId)
             {
-                m_tokens[i].ToggleTokenPlayed(true);
-                break;
+                return m_tokens[i];
             }
         }
+        return null;
+    }
 
+    void PlayerGuessedCard(PlayerGuessCardData args)
+    {
+        TokenController tokenController = GetTokenByPlayerId(args.PlayerId);
+        tokenController.ToggleTokenPlayed(true);
     }
 
     void ToggleBgVissibility(bool isVisible)

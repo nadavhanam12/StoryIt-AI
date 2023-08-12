@@ -35,9 +35,12 @@ public class WebSocketDummyController : MonoBehaviour, IWebSocket
     }
     GameConfiguarations InitConfigurations()
     {
-        GameConfiguarations gameConfiguarations = new GameConfiguarations();
-        gameConfiguarations.PlayerId = m_configuarations.PlayerId;
-        gameConfiguarations.PlayersData = new List<PlayerData>();
+        GameConfiguarations gameConfiguarations = new GameConfiguarations
+        {
+            PlayerId = m_configuarations.PlayerId,
+            PlayersData = new List<PlayerData>()
+        };
+
         for (int i = 0; i < m_numberOfPlayers; i++)
             gameConfiguarations.PlayersData.Add(m_configuarations.PlayersData[i]);
 
@@ -104,7 +107,7 @@ public class WebSocketDummyController : MonoBehaviour, IWebSocket
     async void PostPlayersGuessCard()
     {
         m_playersGuesses = new List<PlayerGuessCardData>();
-        for (int i = 2; i <= m_numberOfPlayers; i++)
+        for (int i = 1; i <= m_numberOfPlayers; i++)
         {
             PlayerGuessCardData playerGuessCardData = GeneratePlayerGuessCardData(i);
             m_playersGuesses.Add(playerGuessCardData);
@@ -135,22 +138,18 @@ public class WebSocketDummyController : MonoBehaviour, IWebSocket
     {
         Debug.Log("PostStateShowingResults");
 
-        // m_guessCardsData = new List<GuessingCardData>();
-        // m_playerActionCount = 0;
+        m_playerActionCount = 0;
 
-        // for (int i = 1; i <= m_numberOfPlayers; i++)
-        // {
-        //     GuessingCardData guessingCardData = new GuessingCardData(i, m_deckData.DrawCard());
-        //     m_guessCardsData.Add(guessingCardData);
-        // }
+        //random right card
+        int randomIndex = UnityEngine.Random.Range(0, m_playersGuesses.Count);
+        int rightCardId = m_playersGuesses[randomIndex].CardId;
 
-        // StateGuessingCardData data = new StateGuessingCardData(m_guessCardsData);
+        StateShowingResultsData data = new StateShowingResultsData(rightCardId, m_playersGuesses);
 
-        // NotificationData stateChoosingCard =
-        //             new NotificationData(NotificationType.StateGuessingCard, data);
-        // PostMessage(stateChoosingCard);
+        NotificationData stateChoosingCard =
+                    new NotificationData(NotificationType.StateShowingResults, data);
+        PostMessage(stateChoosingCard);
 
-        // PostPlayersGuessCard();
     }
 
 
@@ -187,7 +186,7 @@ public class WebSocketDummyController : MonoBehaviour, IWebSocket
     private void OnPlayerGuessingCard()
     {
         m_playerActionCount++;
-        Debug.Log("OnPlayerGuessingCard: number of players guessed " + m_playerActionCount);
+        //Debug.Log("OnPlayerGuessingCard: number of players guessed " + m_playerActionCount);
 
         if (m_playerActionCount == m_numberOfPlayers)
             PostStateShowingResults();

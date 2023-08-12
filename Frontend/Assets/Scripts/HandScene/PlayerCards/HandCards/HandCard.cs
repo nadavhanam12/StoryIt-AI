@@ -45,4 +45,19 @@ public class HandCard : MonoBehaviour
         if (m_curTween == null)
             m_picture.color = Color.black;
     }
+
+    internal void HighlightCard()
+    {
+        //print("add right spot VFX");
+        Color initColor = m_pictureBackground.color;
+        LeanTween.value(m_pictureBackground.gameObject, UpdateColor, initColor,
+                         Color.black, m_pictureAnimDuration / 2)
+            .setLoopPingPong(5);
+
+    }
+
+    private void UpdateColor(Color color)
+    {
+        m_pictureBackground.color = color;
+    }
 }
