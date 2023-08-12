@@ -1,5 +1,4 @@
 
-using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -14,14 +13,12 @@ public class PileSpot : MonoBehaviour
     CardsViewState m_viewState;
     Button m_button;
     PileController m_pileController;
-    Camera m_camera;
 
     internal void Init(
         PileController pileController,
         int index,
         float switchStateDuration)
     {
-        m_camera = Camera.main;
         m_pileController = pileController;
         m_spotIndex = index;
         m_viewState = CardsViewState.Idle;
@@ -83,9 +80,6 @@ public class PileSpot : MonoBehaviour
     internal Vector2 GetLocalHitPos(PointerEventData eventData)
     {
         RectTransform rectTransform = GetComponent<RectTransform>();
-        // Vector2 localPosition;
-        // RectTransformUtility.ScreenPointToLocalPointInRectangle
-        //     (rectTransform, eventData.position, m_camera, out localPosition);
 
         Vector2 relativePosition = eventData.position - (Vector2)rectTransform.position;
 
