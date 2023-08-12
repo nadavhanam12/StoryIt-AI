@@ -1,9 +1,8 @@
 import asyncio
-import base64
+import json
 import os
 
 import websockets
-import json
 
 from card_data import CardData
 
