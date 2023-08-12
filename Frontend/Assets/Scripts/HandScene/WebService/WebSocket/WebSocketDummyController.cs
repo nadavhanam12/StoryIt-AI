@@ -104,7 +104,6 @@ public class WebSocketDummyController : MonoBehaviour, IWebSocket
     async void PostPlayersGuessCard()
     {
         m_playersGuesses = new List<PlayerGuessCardData>();
-        int curPlayerGuessCardId;
         for (int i = 2; i <= m_numberOfPlayers; i++)
         {
             PlayerGuessCardData playerGuessCardData = GeneratePlayerGuessCardData(i);
@@ -136,20 +135,22 @@ public class WebSocketDummyController : MonoBehaviour, IWebSocket
     {
         Debug.Log("PostStateShowingResults");
 
+        // m_guessCardsData = new List<GuessingCardData>();
         // m_playerActionCount = 0;
-        // List<GuessingCardData> cardsList = new List<GuessingCardData>();
+
         // for (int i = 1; i <= m_numberOfPlayers; i++)
         // {
-        //     GuessingCardData guessingCardData =
-        //         new GuessingCardData(i, m_deckData.DrawCard());
-        //     cardsList.Add(guessingCardData);
+        //     GuessingCardData guessingCardData = new GuessingCardData(i, m_deckData.DrawCard());
+        //     m_guessCardsData.Add(guessingCardData);
         // }
 
-        // StateGuessingCardData data = new StateGuessingCardData(cardsList);
+        // StateGuessingCardData data = new StateGuessingCardData(m_guessCardsData);
 
         // NotificationData stateChoosingCard =
         //             new NotificationData(NotificationType.StateGuessingCard, data);
         // PostMessage(stateChoosingCard);
+
+        // PostPlayersGuessCard();
     }
 
 
