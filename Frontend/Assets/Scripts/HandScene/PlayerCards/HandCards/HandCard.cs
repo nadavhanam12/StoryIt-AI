@@ -52,7 +52,7 @@ public class HandCard : MonoBehaviour
         Color initColor = m_pictureBackground.color;
         LeanTween.value(m_pictureBackground.gameObject, UpdateColor, initColor,
                          Color.black, m_pictureAnimDuration / 2)
-            .setLoopPingPong(5);
+            .setLoopPingPong(10);
 
     }
 

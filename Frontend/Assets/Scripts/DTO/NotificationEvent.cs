@@ -19,6 +19,7 @@ public class NotificationData
 public enum NotificationType
 {
     InitialInfo,
+    StateNaratorChoosingCard,
     NaratorChooseCard,
     StateChoosingCard,
     PlayerChooseCard,

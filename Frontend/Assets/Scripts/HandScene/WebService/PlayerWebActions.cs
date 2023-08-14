@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,6 +7,12 @@ public class PlayerWebActions : MonoBehaviour
 {
     [SerializeField] WebService m_webService;
 
+    internal void NaratorChooseCard(PlayerChooseCardData data)
+    {
+        NotificationData notificationData =
+             new NotificationData(NotificationType.NaratorChooseCard, data);
+        m_webService.ApplyPlayerAction(notificationData);
+    }
     public void PlayerChooseCard(PlayerChooseCardData data)
     {
         NotificationData notificationData =
@@ -18,10 +25,12 @@ public class PlayerWebActions : MonoBehaviour
             new NotificationData(NotificationType.PlayerGuessCard, data);
         m_webService.ApplyPlayerAction(notificationData);
     }
-    public void PlayerApproveResults()
+    public void PlayerApproveResults(PlayerApproveResultsData data)
     {
         NotificationData notificationData =
-            new NotificationData(NotificationType.PlayerApproveResults, null);
+            new NotificationData(NotificationType.PlayerApproveResults, data);
         m_webService.ApplyPlayerAction(notificationData);
     }
+
+
 }

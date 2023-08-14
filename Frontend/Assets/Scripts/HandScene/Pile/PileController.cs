@@ -50,6 +50,7 @@ public class PileController : NotificationListener
         switch (data.Type)
         {
             case NotificationType.PlayerChooseCard:
+            case NotificationType.NaratorChooseCard:
                 m_pileView.AddCardToPile();
                 break;
             case NotificationType.StateGuessingCard:
@@ -77,7 +78,7 @@ public class PileController : NotificationListener
 
         PileSpot pileSpot = GetSpotByCardId(stateShowingResultsData.RightCardId);
         if (pileSpot != null)
-            pileSpot.ToggleRightSpot(true);
+            pileSpot.ToggleRightSpot();
     }
 
     internal void SpotClicked(int spotIndex)

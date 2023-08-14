@@ -19,6 +19,7 @@ public class PlayerCardsController : NotificationListener
     [SerializeField] List<HandSpot> m_spots;
     CardsViewState m_viewState;
     int m_playerId;
+    int m_curNaratorPlayerId;
     bool m_onStateChange;
     bool m_hasPlayedCard;
     public void Init(int playerId)
@@ -43,17 +44,32 @@ public class PlayerCardsController : NotificationListener
 
     protected override void OnNotificationRecived(NotificationData data)
     {
-        if (data.Type == NotificationType.StateChoosingCard)
+        switch (data.Type)
         {
-            ToggleHasPlayedCard(false);
-            ApplyIdleState();
-        }
-        else if (data.Type == NotificationType.StateGuessingCard)
-        {
-            ApplyHiddenState();
+            case NotificationType.StateNaratorChoosingCard:
+                SetNaratorChoosingState((StateNaratorChoosingCardData)data.Args);
+                break;
+            case NotificationType.StateChoosingCard:
+                if (m_curNaratorPlayerId != m_playerId)
+                    AllowChoosingCard();
+                break;
+            case NotificationType.StateGuessingCard:
+                ApplyHiddenState();
+                break;
         }
     }
 
+    private void SetNaratorChoosingState(StateNaratorChoosingCardData args)
+    {
+        m_curNaratorPlayerId = args.NaratorPlayerId;
+        if (m_curNaratorPlayerId == m_playerId)
+            AllowChoosingCard();
+    }
+    void AllowChoosingCard()
+    {
+        ToggleHasPlayedCard(false);
+        ApplyIdleState();
+    }
     internal void SpotClicked(CardData card, int spotIndex)
     {
         if (m_onStateChange)
@@ -136,9 +152,12 @@ public class PlayerCardsController : NotificationListener
     void SendPlayerActionEvent(CardData card)
     {
         PlayerChooseCardData playerChooseCardData =
-            new PlayerChooseCardData(m_playerId, card.Id);
+                    new PlayerChooseCardData(m_playerId, card.Id);
 
-        m_playerWebActions.PlayerChooseCard(playerChooseCardData);
+        if (m_curNaratorPlayerId == m_playerId)
+            m_playerWebActions.NaratorChooseCard(playerChooseCardData);
+        else
+            m_playerWebActions.PlayerChooseCard(playerChooseCardData);
     }
 
     IEnumerator StateChange()

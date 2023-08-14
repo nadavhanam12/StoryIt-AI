@@ -17,6 +17,7 @@ public class WebSocketDummyController : MonoBehaviour, IWebSocket
     List<GuessingCardData> m_guessCardsData;
 
     int m_playerActionCount;
+    int m_naratorPlayerId;
 
     public void Init(WebService webService)
     {
@@ -30,8 +31,8 @@ public class WebSocketDummyController : MonoBehaviour, IWebSocket
         GameConfiguarations configuarations = InitConfigurations();
         PostGameConfig(configuarations);
         await Task.Delay(200);
-        PostPlayersChooseCard();
-        //PostStateGuessingCard();
+        PostStateNaratorChoosingCard();
+        //PostPlayersChooseCard();
     }
     GameConfiguarations InitConfigurations()
     {
@@ -60,11 +61,40 @@ public class WebSocketDummyController : MonoBehaviour, IWebSocket
                 new NotificationData(NotificationType.InitialInfo, configuarations);
         PostMessage(InitialInfo);
     }
+    void PostStateNaratorChoosingCard()
+    {
+        Debug.Log("PostStateNaratorChoosingCard");
+        m_playerActionCount = 0;
 
+        m_naratorPlayerId = m_configuarations.PlayerId;
+        m_naratorPlayerId = UnityEngine.Random.Range(1, m_numberOfPlayers);
+        print("Narator player id: " + m_naratorPlayerId);
+        StateNaratorChoosingCardData data =
+            new StateNaratorChoosingCardData(m_naratorPlayerId);
+
+        NotificationData stateNaratorChoosingCard =
+                    new NotificationData(NotificationType.StateNaratorChoosingCard, data);
+
+        PostMessage(stateNaratorChoosingCard);
+    }
+
+    async void PostNaratorChooseCard(int naratorPlayerId)
+    {
+        await Task.Delay(m_playerChooseDelay);
+
+        PlayerChooseCardData naratorChooseCardData =
+                new PlayerChooseCardData(naratorPlayerId, 0);
+
+        NotificationData message = new NotificationData
+            (NotificationType.NaratorChooseCard, naratorChooseCardData);
+
+        PostMessage(message);
+
+    }
     void PostStateChoosingCard()
     {
         Debug.Log("PostStateChoosingCard");
-        m_playerActionCount = 0;
+        //m_playerActionCount = 0;
         NotificationData stateChoosingCard =
                     new NotificationData(NotificationType.StateChoosingCard, null);
         PostMessage(stateChoosingCard);
@@ -73,16 +103,20 @@ public class WebSocketDummyController : MonoBehaviour, IWebSocket
     {
         for (int i = 1; i <= m_numberOfPlayers; i++)
         {
+            if (i == m_naratorPlayerId || i == m_configuarations.PlayerId)
+                continue;
+
             PlayerChooseCardData playerChooseCardData =
                     new PlayerChooseCardData(i, i);
 
-            NotificationData stateChoosingCard = new NotificationData
+            NotificationData message = new NotificationData
                 (NotificationType.PlayerChooseCard, playerChooseCardData);
-            PostMessage(stateChoosingCard);
+
+            PostMessage(message);
+
             await Task.Delay(m_playerChooseDelay);
         }
     }
-
     void PostStateGuessingCard()
     {
         Debug.Log("PostStateGuessingCard");
@@ -103,12 +137,14 @@ public class WebSocketDummyController : MonoBehaviour, IWebSocket
 
         PostPlayersGuessCard();
     }
-
     async void PostPlayersGuessCard()
     {
         m_playersGuesses = new List<PlayerGuessCardData>();
         for (int i = 1; i <= m_numberOfPlayers; i++)
         {
+            if (i == m_configuarations.PlayerId)
+                continue;
+
             PlayerGuessCardData playerGuessCardData = GeneratePlayerGuessCardData(i);
             m_playersGuesses.Add(playerGuessCardData);
 
@@ -164,6 +200,15 @@ public class WebSocketDummyController : MonoBehaviour, IWebSocket
         //print("Dummy Server GetNotification: " + notificationData.Args.ToString());
         switch (notificationData.Type)
         {
+            case NotificationType.StateNaratorChoosingCard:
+                OnStateNaratorChoosingCard((StateNaratorChoosingCardData)notificationData.Args);
+                break;
+            case NotificationType.NaratorChooseCard:
+                OnNaratorChooseCard();
+                break;
+            case NotificationType.StateChoosingCard:
+                OnStateChoosingCard();
+                break;
             case NotificationType.PlayerChooseCard:
                 OnPlayerChooseCard();
                 break;
@@ -176,6 +221,20 @@ public class WebSocketDummyController : MonoBehaviour, IWebSocket
         }
     }
 
+    private void OnStateNaratorChoosingCard(StateNaratorChoosingCardData args)
+    {
+        if (args.NaratorPlayerId != m_configuarations.PlayerId)
+            PostNaratorChooseCard(args.NaratorPlayerId);
+    }
+    private void OnNaratorChooseCard()
+    {
+        m_playerActionCount++;
+        PostStateChoosingCard();
+    }
+    private void OnStateChoosingCard()
+    {
+        PostPlayersChooseCard();
+    }
     private void OnPlayerChooseCard()
     {
         m_playerActionCount++;

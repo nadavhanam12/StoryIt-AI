@@ -98,7 +98,7 @@ public class PileSpot : MonoBehaviour
         ToggleInteractable(false);
     }
 
-    internal void ToggleRightSpot(bool showRightSpot)
+    internal void ToggleRightSpot()
     {
         m_handCard.HighlightCard();
     }

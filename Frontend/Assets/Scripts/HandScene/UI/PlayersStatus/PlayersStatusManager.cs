@@ -11,25 +11,33 @@ public class PlayersStatusManager : NotificationListener
     {
         switch (data.Type)
         {
+
             case NotificationType.InitialInfo:
                 InitGame((GameConfiguarations)data.Args);
                 break;
-            case NotificationType.StateChoosingCard:
+
+            case NotificationType.StateNaratorChoosingCard:
+            //case NotificationType.StateChoosingCard:
             case NotificationType.StateGuessingCard:
             case NotificationType.StateShowingResults:
             case NotificationType.StateShowingLeaderboard:
                 InitStatus();
                 break;
+
             case NotificationType.PlayerChooseCard:
+            case NotificationType.NaratorChooseCard:
                 PlayerChooseCardData playerChooseCardData = (PlayerChooseCardData)data.Args;
                 PlayerTookAction(playerChooseCardData.PlayerId);
                 break;
+
             case NotificationType.PlayerGuessCard:
                 PlayerGuessCardData playerGuessCardData = (PlayerGuessCardData)data.Args;
                 PlayerTookAction(playerGuessCardData.PlayerId);
                 break;
+
             case NotificationType.PlayerApproveResults:
-                int playerId = (int)data.Args;
+                PlayerApproveResultsData playerApproveResultsData = (PlayerApproveResultsData)data.Args;
+                int playerId = playerApproveResultsData.PlayerId;
                 PlayerTookAction(playerId);
                 break;
         }
