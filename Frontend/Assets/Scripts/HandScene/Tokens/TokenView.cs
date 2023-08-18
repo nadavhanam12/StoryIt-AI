@@ -70,6 +70,11 @@ public class TokenView : MonoBehaviour
 
     }
 
+    internal void InitPos()
+    {
+        m_rectTransform.anchoredPosition = m_initPosition;
+    }
+
     // private void UpdateColor(Color color)
     // {
     //     m_bgImage.color = color;

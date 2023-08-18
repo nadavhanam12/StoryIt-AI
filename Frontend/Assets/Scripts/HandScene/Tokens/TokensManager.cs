@@ -34,6 +34,9 @@ public class TokensManager : NotificationListener
             case NotificationType.StateShowingResults:
                 PlaceTokens((StateShowingResultsData)data.Args);
                 break;
+            case NotificationType.StateShowingLeaderboard:
+                ResetTokens();
+                break;
         }
     }
 
@@ -101,6 +104,13 @@ public class TokensManager : NotificationListener
                 tokenController.HighlightRightGuess();
             }
         }
+    }
+
+    void ResetTokens()
+    {
+        for (int i = 0; i < m_tokens.Count; i++)
+            m_tokens[i].InitPos();
+        //TurnOff();
     }
 
     TokenController GetTokenByPlayerId(int playerId)

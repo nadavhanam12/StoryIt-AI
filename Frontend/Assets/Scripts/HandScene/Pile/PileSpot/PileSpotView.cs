@@ -18,10 +18,14 @@ public class PileSpotView : MonoBehaviour
     {
         m_switchStateDuration = switchStateDuration;
         m_rectTransform = GetComponent<RectTransform>();
+        InitPos();
+    }
+
+    internal void InitPos()
+    {
         m_rectTransform.anchoredPosition = m_initPosition;
         m_rectTransform.eulerAngles = new Vector3(0f, 0f, m_initRotation);
     }
-
     internal void ApplyIdleView()
     {
         LeanTween.rotateZ

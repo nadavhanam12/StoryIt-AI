@@ -37,9 +37,14 @@ public class PlayersStatusManager : NotificationListener
 
             case NotificationType.PlayerApproveResults:
                 PlayerApproveResultsData playerApproveResultsData = (PlayerApproveResultsData)data.Args;
-                int playerId = playerApproveResultsData.PlayerId;
-                PlayerTookAction(playerId);
+                PlayerTookAction(playerApproveResultsData.PlayerId);
                 break;
+
+            case NotificationType.PlayerApproveLeaderboard:
+                PlayerApproveLeaderboardData playerApproveLeaderboardData = (PlayerApproveLeaderboardData)data.Args;
+                PlayerTookAction(playerApproveLeaderboardData.PlayerId);
+                break;
+
         }
 
 

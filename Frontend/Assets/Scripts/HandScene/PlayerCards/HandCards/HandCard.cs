@@ -8,10 +8,12 @@ public class HandCard : MonoBehaviour
     [SerializeField] RawImage m_picture;
     [SerializeField] float m_pictureAnimDuration;
     public CardData Card { get; private set; }
+    Color m_initColor;
     LTDescr m_curTween;
     public void SetCard(CardData cardData)
     {
         //m_picture.texture = cardData.Picture;
+        m_initColor = m_pictureBackground.color;
         Card = cardData;
         SetTexture(cardData.Picture);
     }
@@ -37,6 +39,13 @@ public class HandCard : MonoBehaviour
     internal void HideCard()
     {
         gameObject.SetActive(false);
+        if (m_curTween != null)
+        {
+            m_curTween = null;
+            LeanTween.cancel(gameObject);
+            m_pictureBackground.color = m_initColor;
+        }
+
     }
 
     internal void SetFlippedCard()
@@ -49,10 +58,10 @@ public class HandCard : MonoBehaviour
     internal void HighlightCard()
     {
         //print("add right spot VFX");
-        Color initColor = m_pictureBackground.color;
-        LeanTween.value(m_pictureBackground.gameObject, UpdateColor, initColor,
-                         Color.black, m_pictureAnimDuration / 2)
-            .setLoopPingPong(10);
+
+        m_curTween = LeanTween.value(m_pictureBackground.gameObject, UpdateColor, m_initColor,
+                        Color.black, m_pictureAnimDuration / 2)
+           .setLoopPingPong(10);
 
     }
 

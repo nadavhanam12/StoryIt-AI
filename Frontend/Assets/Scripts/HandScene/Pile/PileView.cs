@@ -23,12 +23,15 @@ public class PileView : MonoBehaviour
         m_rectTransform = GetComponent<RectTransform>();
         m_rectTransform.anchoredPosition = new Vector3(0, m_idlePosY, 0);
         m_bgImage.gameObject.SetActive(false);
+        m_pilledCards = 0;
     }
-
+    internal void ResetPileView()
+    {
+        m_pilledCards = 0;
+    }
     internal void ApplyIdleState()
     {
         m_bgImage.gameObject.SetActive(false);
-        m_pilledCards = 0;
         LeanTween.moveY
                     (m_rectTransform, m_idlePosY, m_switchStateDuration);
 
@@ -72,4 +75,6 @@ public class PileView : MonoBehaviour
         m_spots[m_pilledCards].PileCard();
         m_pilledCards++;
     }
+
+
 }

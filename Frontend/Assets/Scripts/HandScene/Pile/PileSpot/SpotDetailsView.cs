@@ -14,17 +14,22 @@ public class SpotDetailsView : MonoBehaviour
     public void Init(int index, float switchStateDuration)
     {
         ToggleAvatar(false);
-        m_indexText.gameObject.SetActive(false);
+        ToggleIndex(false);
 
         m_indexText.text = (1 + index).ToString();
         m_switchStateDuration = switchStateDuration;
     }
+
     internal void SetAvater(Texture avatarTexture)
     {
         m_avatarImage.texture = avatarTexture;
         Color curColor = Color.white;
         curColor.a = 0;
         m_avatarImage.color = curColor;
+    }
+    public void ToggleIndex(bool isOn)
+    {
+        m_indexText.gameObject.SetActive(isOn);
     }
     public void ToggleAvatar(bool showDetails)
     {
@@ -37,7 +42,7 @@ public class SpotDetailsView : MonoBehaviour
     public async void ShowIndex()
     {
         await Task.Delay((int)(m_switchStateDuration * 1000));
-        m_indexText.gameObject.SetActive(true);
+        ToggleIndex(true);
     }
 
 }

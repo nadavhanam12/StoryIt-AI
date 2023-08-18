@@ -28,4 +28,5 @@ public enum NotificationType
     StateShowingResults,
     PlayerApproveResults,
     StateShowingLeaderboard,
+    PlayerApproveLeaderboard,
 }

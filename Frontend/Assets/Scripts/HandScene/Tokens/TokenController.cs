@@ -63,4 +63,9 @@ public class TokenController : MonoBehaviour
     {
         m_tokenView.HighlightRightGuess();
     }
+
+    internal void InitPos()
+    {
+        m_tokenView.InitPos();
+    }
 }

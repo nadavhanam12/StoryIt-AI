@@ -28,6 +28,15 @@ public class PileSpot : MonoBehaviour
         m_handCard.HideCard();
         m_spotDetailsView.Init(index, switchStateDuration);
     }
+
+    internal void ResetSpot()
+    {
+        m_spotDetailsView.ToggleAvatar(false);
+        m_spotDetailsView.ToggleIndex(false);
+        m_handCard.HideCard();
+        m_pileSpotView.InitPos();
+        m_viewState = CardsViewState.Hidden;
+    }
     public void SpotClicked()
     {
         m_pileController.SpotClicked(m_spotIndex);

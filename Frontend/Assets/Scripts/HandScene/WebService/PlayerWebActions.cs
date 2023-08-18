@@ -31,6 +31,12 @@ public class PlayerWebActions : MonoBehaviour
             new NotificationData(NotificationType.PlayerApproveResults, data);
         m_webService.ApplyPlayerAction(notificationData);
     }
+    public void PlayerApproveLeaderboard(PlayerApproveLeaderboardData data)
+    {
+        NotificationData notificationData =
+            new NotificationData(NotificationType.PlayerApproveLeaderboard, data);
+        m_webService.ApplyPlayerAction(notificationData);
+    }
 
 
 }

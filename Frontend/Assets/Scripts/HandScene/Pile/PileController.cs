@@ -59,6 +59,9 @@ public class PileController : NotificationListener
             case NotificationType.StateShowingResults:
                 ShowPilesDetails((StateShowingResultsData)data.Args);
                 break;
+            case NotificationType.StateShowingLeaderboard:
+                ResetPile();
+                break;
         }
     }
     async void ShuffleAndShowCards(StateGuessingCardData stateGuessingCardData)
@@ -79,6 +82,14 @@ public class PileController : NotificationListener
         PileSpot pileSpot = GetSpotByCardId(stateShowingResultsData.RightCardId);
         if (pileSpot != null)
             pileSpot.ToggleRightSpot();
+    }
+
+    void ResetPile()
+    {
+        m_viewState = CardsViewState.Hidden;
+        m_pileView.ResetPileView();
+        for (int i = 0; i < m_pileSpots.Count; i++)
+            m_pileSpots[i].ResetSpot();
     }
 
     internal void SpotClicked(int spotIndex)
@@ -166,8 +177,6 @@ public class PileController : NotificationListener
         }
         return null;
     }
-
-
 
     internal Vector2 GetSpotPosition(int cardId)
     {
