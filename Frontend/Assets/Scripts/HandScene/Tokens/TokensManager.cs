@@ -134,7 +134,7 @@ public class TokensManager : NotificationListener
     void ToggleBgVissibility(bool isVisible)
     {
         float targetAlpha = isVisible ? 1f : 0f;
-        LeanTween.alpha(m_bgImage, targetAlpha, m_animDuration);
+        //LeanTween.alpha(m_bgImage, targetAlpha, m_animDuration);
     }
 
     public void OnTokenDropped(int playerId, int cardId, Vector2 relativeHitPosition)

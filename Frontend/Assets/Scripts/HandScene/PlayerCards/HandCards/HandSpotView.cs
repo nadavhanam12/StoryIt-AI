@@ -8,6 +8,8 @@ public class HandSpotView : MonoBehaviour
     [SerializeField] float m_initRotation;
     [SerializeField] Vector2 m_cardsSelectionPosition;
     [SerializeField] Vector2 m_cardsChoosenPosition;
+    [SerializeField] float m_cardsChoosenScaleUp = 1.75f;
+    [SerializeField] LeanTweenType m_tweenType;
     float m_switchStateDuration;
     RectTransform m_rectTransform;
     Vector2 m_deckPosition;
@@ -33,23 +35,29 @@ public class HandSpotView : MonoBehaviour
     internal void ApplyIdleView()
     {
         LeanTween.rotateZ
-            (m_rectTransform.gameObject, m_initRotation, m_switchStateDuration);
+            (m_rectTransform.gameObject, m_initRotation, m_switchStateDuration)
+            .setEase(m_tweenType);
 
         LeanTween.move
-            (m_rectTransform, m_initPosition, m_switchStateDuration);
+            (m_rectTransform, m_initPosition, m_switchStateDuration)
+            .setEase(m_tweenType);
 
         LeanTween.scale
-            (m_rectTransform, Vector3.one, m_switchStateDuration);
+            (m_rectTransform, Vector3.one, m_switchStateDuration)
+            .setEase(m_tweenType);
     }
     internal void ApplyCardsSelectionView()
     {
         LeanTween.rotateZ
-            (m_rectTransform.gameObject, 0, m_switchStateDuration);
+            (m_rectTransform.gameObject, 0, m_switchStateDuration)
+            .setEase(m_tweenType);
 
         LeanTween.move
-            (m_rectTransform, m_cardsSelectionPosition, m_switchStateDuration);
+            (m_rectTransform, m_cardsSelectionPosition, m_switchStateDuration)
+            .setEase(m_tweenType);
         LeanTween.scale
-            (m_rectTransform, Vector3.one, m_switchStateDuration);
+            (m_rectTransform, Vector3.one, m_switchStateDuration)
+            .setEase(m_tweenType);
 
     }
 
@@ -58,14 +66,17 @@ public class HandSpotView : MonoBehaviour
         if (isChoosen)
         {
             LeanTween.move
-                (m_rectTransform, m_cardsChoosenPosition, m_switchStateDuration);
+                (m_rectTransform, m_cardsChoosenPosition, m_switchStateDuration)
+                .setEase(m_tweenType);
             LeanTween.scale
-                (m_rectTransform, Vector3.one * 2, m_switchStateDuration);
+                (m_rectTransform, Vector3.one * m_cardsChoosenScaleUp, m_switchStateDuration)
+                .setEase(m_tweenType);
         }
         else
         {
             LeanTween.move
-                (m_rectTransform, new Vector3(0, -1500, 0), m_switchStateDuration);
+                (m_rectTransform, new Vector3(0, -1500, 0), m_switchStateDuration)
+                .setEase(m_tweenType);
         }
     }
 }

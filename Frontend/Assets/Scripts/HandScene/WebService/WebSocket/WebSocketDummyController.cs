@@ -44,8 +44,8 @@ public class WebSocketDummyController : MonoBehaviour, IWebSocket
         GameConfiguarations configuarations = InitConfigurations();
         PostGameConfig(configuarations);
         await Task.Delay(200);
-        PostStateNaratorChoosingCard();
-        //PostPlayersChooseCard();
+        //PostStateNaratorChoosingCard();
+        PostPlayersChooseCard();
     }
     GameConfiguarations InitConfigurations()
     {

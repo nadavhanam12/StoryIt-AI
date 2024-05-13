@@ -1,12 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
 using WebSocketSharp;
 using UnityEngine;
-using System.IO;
-using System.Runtime.Serialization.Formatters.Binary;
 using System;
 using System.Text;
-using Unity.Plastic.Newtonsoft.Json;
+using Newtonsoft.Json;
 
 public class WebSocketController : IWebSocket
 {

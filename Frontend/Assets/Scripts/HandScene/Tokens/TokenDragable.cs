@@ -33,7 +33,10 @@ public class TokenDragable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEn
 
     public void OnDrag(PointerEventData eventData)
     {
-        m_rectTransform.anchoredPosition += eventData.delta;
+        m_rectTransform.position = eventData.position;
+        // print("position: " + eventData.position);
+        // print("pressPosition: " + eventData.pressPosition);
+        // print("pointerCurrentRaycast.worldPosition: " + eventData.pointerCurrentRaycast.worldPosition);
     }
 
     public void OnEndDrag(PointerEventData eventData)

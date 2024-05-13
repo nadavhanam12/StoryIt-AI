@@ -11,6 +11,7 @@ public class PlayerCardsView : MonoBehaviour
     [SerializeField] int m_hiddenPosY;
     [SerializeField] int m_idlePosY;
     [SerializeField] int m_cardsSelectionPosY;
+    [SerializeField] LeanTweenType m_tweenType;
     List<HandSpot> m_spots;
     RectTransform m_rectTransform;
     float m_switchStateDuration;
@@ -27,7 +28,8 @@ public class PlayerCardsView : MonoBehaviour
     {
         m_bgImage.gameObject.SetActive(false);
         LeanTween.moveY
-                    (m_rectTransform, m_idlePosY, m_switchStateDuration);
+                    (m_rectTransform, m_idlePosY, m_switchStateDuration)
+                    .setEase(m_tweenType);
         LeanTween.alpha
             (m_bgImage, 0f, m_switchStateDuration);
 
@@ -41,7 +43,8 @@ public class PlayerCardsView : MonoBehaviour
     {
         m_bgImage.gameObject.SetActive(true);
         LeanTween.moveY
-            (m_rectTransform, m_cardsSelectionPosY, m_switchStateDuration);
+            (m_rectTransform, m_cardsSelectionPosY, m_switchStateDuration)
+            .setEase(m_tweenType);
         LeanTween.alpha
             (m_bgImage, 0.3f, m_switchStateDuration);
 
@@ -67,7 +70,8 @@ public class PlayerCardsView : MonoBehaviour
         //print("ApplyHiddenState");
         m_bgImage.gameObject.SetActive(false);
         LeanTween.moveY
-                    (m_rectTransform, m_hiddenPosY, m_switchStateDuration);
+                    (m_rectTransform, m_hiddenPosY, m_switchStateDuration)
+                    .setEase(m_tweenType);
         LeanTween.alpha
             (m_bgImage, 0f, m_switchStateDuration);
 

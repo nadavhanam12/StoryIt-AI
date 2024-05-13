@@ -88,6 +88,11 @@ public class PileSpot : MonoBehaviour
 
     internal int GetCardId()
     {
+        if (m_handCard == null)
+        {
+            print("GetCardId card is not assigned");
+            return -1;
+        }
         return m_handCard.Card.Id;
     }
 

@@ -644,7 +644,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_dragPlayLimit: 400
-  m_maxPosY: 1000
+  m_maxDeltaY: 1000
 --- !u!114 &73255183
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -660,7 +660,9 @@ MonoBehaviour:
   m_initPosition: {x: -300, y: 55}
   m_initRotation: 10
   m_cardsSelectionPosition: {x: -475, y: 0}
-  m_cardsChoosenPosition: {x: 0, y: 100}
+  m_cardsChoosenPosition: {x: 0, y: 50}
+  m_cardsChoosenScaleUp: 1.75
+  m_tweenType: 26
 --- !u!1 &99390084
 GameObject:
   m_ObjectHideFlags: 0
@@ -973,7 +975,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_dragPlayLimit: 400
-  m_maxPosY: 1000
+  m_maxDeltaY: 1000
 --- !u!114 &129301231
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -989,7 +991,9 @@ MonoBehaviour:
   m_initPosition: {x: -500, y: 0}
   m_initRotation: 20
   m_cardsSelectionPosition: {x: -800, y: 0}
-  m_cardsChoosenPosition: {x: 0, y: 100}
+  m_cardsChoosenPosition: {x: 0, y: 50}
+  m_cardsChoosenScaleUp: 1.75
+  m_tweenType: 26
 --- !u!1 &141545606
 GameObject:
   m_ObjectHideFlags: 0
@@ -1271,7 +1275,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_dragPlayLimit: 400
-  m_maxPosY: 1000
+  m_maxDeltaY: 1000
 --- !u!114 &172108822
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1287,7 +1291,9 @@ MonoBehaviour:
   m_initPosition: {x: 500, y: 5}
   m_initRotation: -20
   m_cardsSelectionPosition: {x: 825, y: 0}
-  m_cardsChoosenPosition: {x: 0, y: 100}
+  m_cardsChoosenPosition: {x: 0, y: 50}
+  m_cardsChoosenScaleUp: 1.75
+  m_tweenType: 26
 --- !u!224 &272779364 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 6897171031333803873, guid: 3f0763dd323d344489fd68c8f37d3c2a, type: 3}
@@ -1480,11 +1486,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6897171031333803873, guid: 3f0763dd323d344489fd68c8f37d3c2a, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 810
+      value: 777
       objectReference: {fileID: 0}
     - target: {fileID: 6897171031333803873, guid: 3f0763dd323d344489fd68c8f37d3c2a, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -390
+      value: -347
       objectReference: {fileID: 0}
     - target: {fileID: 6897171031333803873, guid: 3f0763dd323d344489fd68c8f37d3c2a, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -1895,7 +1901,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_dragPlayLimit: 400
-  m_maxPosY: 1000
+  m_maxDeltaY: 1000
 --- !u!114 &397084527
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1911,7 +1917,9 @@ MonoBehaviour:
   m_initPosition: {x: 100, y: 86}
   m_initRotation: -5
   m_cardsSelectionPosition: {x: 175, y: 0}
-  m_cardsChoosenPosition: {x: 0, y: 100}
+  m_cardsChoosenPosition: {x: 0, y: 50}
+  m_cardsChoosenScaleUp: 1.75
+  m_tweenType: 26
 --- !u!224 &400832989 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 5098853992116772885, guid: 7ed50b80894ee7e499ebdbf6977761c3, type: 3}
@@ -2227,11 +2235,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6897171031333803873, guid: 3f0763dd323d344489fd68c8f37d3c2a, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 910
+      value: 877
       objectReference: {fileID: 0}
     - target: {fileID: 6897171031333803873, guid: 3f0763dd323d344489fd68c8f37d3c2a, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -390
+      value: -347
       objectReference: {fileID: 0}
     - target: {fileID: 6897171031333803873, guid: 3f0763dd323d344489fd68c8f37d3c2a, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -2397,11 +2405,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6897171031333803873, guid: 3f0763dd323d344489fd68c8f37d3c2a, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 710
+      value: 677
       objectReference: {fileID: 0}
     - target: {fileID: 6897171031333803873, guid: 3f0763dd323d344489fd68c8f37d3c2a, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -390
+      value: -347
       objectReference: {fileID: 0}
     - target: {fileID: 6897171031333803873, guid: 3f0763dd323d344489fd68c8f37d3c2a, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -2929,7 +2937,9 @@ MonoBehaviour:
   m_initPosition: {x: 0, y: 0}
   m_initRotation: 0
   m_cardsSelectionPosition: {x: 800, y: 0}
-  m_cardsChoosenPosition: {x: 0, y: 75}
+  m_cardsChoosenPosition: {x: 0, y: 50}
+  m_cardsChoosenScaleUp: 1.75
+  m_tweenType: 26
 --- !u!114 &629659329
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3104,7 +3114,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_dragPlayLimit: 400
-  m_maxPosY: 1000
+  m_maxDeltaY: 1000
 --- !u!114 &677077049
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3120,7 +3130,9 @@ MonoBehaviour:
   m_initPosition: {x: 300, y: 60}
   m_initRotation: -10
   m_cardsSelectionPosition: {x: 500, y: 0}
-  m_cardsChoosenPosition: {x: 0, y: 100}
+  m_cardsChoosenPosition: {x: 0, y: 50}
+  m_cardsChoosenScaleUp: 1.75
+  m_tweenType: 26
 --- !u!1 &687191857
 GameObject:
   m_ObjectHideFlags: 0
@@ -3528,7 +3540,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 75, y: -22}
   m_SizeDelta: {x: 200, y: 300}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &796742988
@@ -3965,6 +3977,7 @@ MonoBehaviour:
   m_hiddenPosY: -450
   m_idlePosY: -100
   m_cardsSelectionPosY: 100
+  m_tweenType: 6
 --- !u!1 &942040696
 GameObject:
   m_ObjectHideFlags: 0
@@ -4224,7 +4237,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_dragPlayLimit: 400
-  m_maxPosY: 1000
+  m_maxDeltaY: 1000
 --- !u!114 &967264695
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4240,7 +4253,9 @@ MonoBehaviour:
   m_initPosition: {x: -100, y: 85}
   m_initRotation: 5
   m_cardsSelectionPosition: {x: -150, y: 0}
-  m_cardsChoosenPosition: {x: 0, y: 100}
+  m_cardsChoosenPosition: {x: 0, y: 50}
+  m_cardsChoosenScaleUp: 1.75
+  m_tweenType: 26
 --- !u!1 &999165641
 GameObject:
   m_ObjectHideFlags: 0
@@ -5343,11 +5358,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6897171031333803873, guid: 3f0763dd323d344489fd68c8f37d3c2a, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 910
+      value: 877
       objectReference: {fileID: 0}
     - target: {fileID: 6897171031333803873, guid: 3f0763dd323d344489fd68c8f37d3c2a, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -290
+      value: -247
       objectReference: {fileID: 0}
     - target: {fileID: 6897171031333803873, guid: 3f0763dd323d344489fd68c8f37d3c2a, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -5733,7 +5748,9 @@ MonoBehaviour:
   m_initPosition: {x: 30, y: -40}
   m_initRotation: 40
   m_cardsSelectionPosition: {x: -160, y: 0}
-  m_cardsChoosenPosition: {x: 0, y: 75}
+  m_cardsChoosenPosition: {x: 0, y: 50}
+  m_cardsChoosenScaleUp: 1.75
+  m_tweenType: 26
 --- !u!114 &1372329463
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6390,7 +6407,9 @@ MonoBehaviour:
   m_initPosition: {x: -100, y: 80}
   m_initRotation: -29
   m_cardsSelectionPosition: {x: 160, y: 0}
-  m_cardsChoosenPosition: {x: 0, y: 75}
+  m_cardsChoosenPosition: {x: 0, y: 50}
+  m_cardsChoosenScaleUp: 1.75
+  m_tweenType: 26
 --- !u!114 &1421091941
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6555,7 +6574,9 @@ MonoBehaviour:
   m_initPosition: {x: 100, y: 25}
   m_initRotation: 32
   m_cardsSelectionPosition: {x: 480, y: 0}
-  m_cardsChoosenPosition: {x: 0, y: 75}
+  m_cardsChoosenPosition: {x: 0, y: 50}
+  m_cardsChoosenScaleUp: 1.75
+  m_tweenType: 26
 --- !u!114 &1441796257
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6659,7 +6680,7 @@ MonoBehaviour:
   m_ScaleFactor: 1
   m_ReferenceResolution: {x: 1920, y: 1080}
   m_ScreenMatchMode: 0
-  m_MatchWidthOrHeight: 1
+  m_MatchWidthOrHeight: 0
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
@@ -6876,9 +6897,9 @@ MonoBehaviour:
     Cards: []
   m_deckData: {fileID: 11400000, guid: 53aabad5f59df3d48a7280959035a431, type: 2}
   m_numberOfPlayers: 6
-  m_playerChooseDelay: 1000
+  m_playerChooseDelay: 1500
   m_playerGuessDelay: 500
-  m_playerApproveDelay: 500
+  m_playerApproveDelay: 1000
   m_autoPlay: 0
 --- !u!1 &1575964486
 GameObject:
@@ -7723,7 +7744,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1765582065
 RectTransform:
   m_ObjectHideFlags: 0
@@ -7742,7 +7763,7 @@ RectTransform:
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 300, y: 300}
+  m_SizeDelta: {x: 300, y: 250}
   m_Pivot: {x: 1, y: 0}
 --- !u!114 &1765582066
 MonoBehaviour:
@@ -8675,7 +8696,9 @@ MonoBehaviour:
   m_initPosition: {x: -30, y: 30}
   m_initRotation: -30
   m_cardsSelectionPosition: {x: -800, y: 0}
-  m_cardsChoosenPosition: {x: 0, y: 75}
+  m_cardsChoosenPosition: {x: 0, y: 50}
+  m_cardsChoosenScaleUp: 1.75
+  m_tweenType: 26
 --- !u!114 &1914912186
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8901,7 +8924,9 @@ MonoBehaviour:
   m_initPosition: {x: 10, y: -10}
   m_initRotation: -70
   m_cardsSelectionPosition: {x: -480, y: 0}
-  m_cardsChoosenPosition: {x: 0, y: 75}
+  m_cardsChoosenPosition: {x: 0, y: 50}
+  m_cardsChoosenScaleUp: 1.75
+  m_tweenType: 26
 --- !u!114 &1959028221
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9654,11 +9679,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6897171031333803873, guid: 3f0763dd323d344489fd68c8f37d3c2a, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 810
+      value: 777
       objectReference: {fileID: 0}
     - target: {fileID: 6897171031333803873, guid: 3f0763dd323d344489fd68c8f37d3c2a, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -290
+      value: -247
       objectReference: {fileID: 0}
     - target: {fileID: 6897171031333803873, guid: 3f0763dd323d344489fd68c8f37d3c2a, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -10000,11 +10025,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6897171031333803873, guid: 3f0763dd323d344489fd68c8f37d3c2a, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 710
+      value: 677
       objectReference: {fileID: 0}
     - target: {fileID: 6897171031333803873, guid: 3f0763dd323d344489fd68c8f37d3c2a, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -290
+      value: -247
       objectReference: {fileID: 0}
     - target: {fileID: 6897171031333803873, guid: 3f0763dd323d344489fd68c8f37d3c2a, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x

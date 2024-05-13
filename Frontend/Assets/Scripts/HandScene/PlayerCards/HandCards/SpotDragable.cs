@@ -8,7 +8,7 @@ public class SpotDragable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEnd
     [SerializeField]
     float m_dragPlayLimit = 400;
     [SerializeField]
-    float m_maxPosY = 0;
+    float m_maxDeltaY = 1000;
     HandSpot m_handSpot;
     Vector2 m_touchStartPos;
     Vector2 m_spotStartPos;
@@ -34,7 +34,7 @@ public class SpotDragable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEnd
     {
         m_touchStartPos = eventData.position;
         if (m_spotStartPos == Vector2.zero)
-            m_spotStartPos = m_rectTransform.anchoredPosition;
+            m_spotStartPos = m_rectTransform.position;
         m_spotCurPos = m_spotStartPos;
     }
 
@@ -42,7 +42,7 @@ public class SpotDragable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEnd
     {
         if (m_touchStartPos == Vector2.zero)
             return;
-        m_spotCurPos.y += eventData.delta.y;
+        m_spotCurPos.y = eventData.position.y;
         //print(m_spotCurPos);
         //print(m_spotStartPos);
 
@@ -52,12 +52,12 @@ public class SpotDragable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEnd
     void UpdateSpotLocation()
     {
         //print(m_spotCurPos.y);
-        if (m_spotCurPos.y > m_maxPosY)
+        if (m_spotCurPos.y > m_spotStartPos.y + m_maxDeltaY)
             return;
 
         if (m_spotCurPos.y > m_spotStartPos.y)
         {
-            m_rectTransform.anchoredPosition = m_spotCurPos;
+            m_rectTransform.position = m_spotCurPos;
         }
     }
 
@@ -72,7 +72,7 @@ public class SpotDragable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEnd
         else
         {
             //print("init drag");
-            m_rectTransform.anchoredPosition = m_spotStartPos;
+            m_rectTransform.position = m_spotStartPos;
             m_spotStartPos = Vector2.zero;
             m_touchStartPos = Vector2.zero;
         }
