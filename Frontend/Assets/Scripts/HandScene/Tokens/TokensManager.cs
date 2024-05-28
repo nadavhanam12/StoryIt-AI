@@ -98,7 +98,9 @@ public class TokensManager : NotificationListener
         {
             spotScreenPosition = m_pileController.GetSpotPosition(playerGuessCardData.CardId);
             tokenController = GetTokenByPlayerId(playerGuessCardData.PlayerId);
-            tokenController.PlaceToken(spotScreenPosition, playerGuessCardData.HitRelativePosition);
+
+            Vector2 HitRelativePosition = new Vector2(playerGuessCardData.HitRelativePositionX, playerGuessCardData.HitRelativePositionY);
+            tokenController.PlaceToken(spotScreenPosition, HitRelativePosition);
             if (playerGuessCardData.CardId == rightCardId)
             {
                 tokenController.HighlightRightGuess();

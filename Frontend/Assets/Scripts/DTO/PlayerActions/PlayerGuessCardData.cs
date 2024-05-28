@@ -6,7 +6,8 @@ public class PlayerGuessCardData
 {
     public int PlayerId;
     public int CardId;
-    public Vector2 HitRelativePosition;
+    public float HitRelativePositionX;
+    public float HitRelativePositionY;
 
     public PlayerGuessCardData(
         int playerId,
@@ -15,7 +16,8 @@ public class PlayerGuessCardData
     {
         PlayerId = playerId;
         CardId = cardId;
-        HitRelativePosition = hitRelativePosition;
+        HitRelativePositionX = hitRelativePosition.x;
+        HitRelativePositionY = hitRelativePosition.y;
     }
 }
 
