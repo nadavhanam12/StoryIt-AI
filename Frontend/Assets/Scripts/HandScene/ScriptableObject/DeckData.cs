@@ -7,24 +7,27 @@ using System;
 public class DeckData : ScriptableObject
 {
     public List<CardData> CardsData;
-    internal void ShuffleDeck()
+    List<CardData> cardsDataCopy;
+    internal void InitDeck()
     {
-        InitIDs();
-        Shuffle(CardsData);
+        CopyCardsData();
+        Shuffle(cardsDataCopy);
     }
 
-    void InitIDs()
+    private void CopyCardsData()
     {
-        for (int i = 0; i < CardsData.Count; i++)
+        cardsDataCopy = new List<CardData>();
+        foreach (CardData cardData in CardsData)
         {
-            CardsData[i].Id = i + 1;
+            cardsDataCopy.Add(cardData);
         }
     }
+
     internal CardData DrawCard()
     {
-        CardData card = CardsData[0];
-        CardsData.RemoveAt(0);
-        CardsData.Add(card);
+        CardData card = cardsDataCopy[0];
+        cardsDataCopy.RemoveAt(0);
+        cardsDataCopy.Add(card);
         return card;
     }
 

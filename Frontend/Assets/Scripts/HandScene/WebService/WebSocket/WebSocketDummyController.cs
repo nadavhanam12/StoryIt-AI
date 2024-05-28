@@ -64,7 +64,7 @@ public class WebSocketDummyController : MonoBehaviour, IWebSocket
     void PostGameConfig(GameConfiguarations configuarations)
     {
         configuarations.Cards = new List<CardData>();
-        m_deckData.ShuffleDeck();
+        m_deckData.InitDeck();
         for (int i = 0; i < 10; i++)
         {
             configuarations.Cards.Add(m_deckData.DrawCard());

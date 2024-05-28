@@ -1,3 +1,4 @@
 {
-    "dotnet.defaultSolution": "Frontend.sln"
+    "dotnet.defaultSolution": "Frontend.sln",
+    "dotnet.preferCSharpExtension": true
 }
