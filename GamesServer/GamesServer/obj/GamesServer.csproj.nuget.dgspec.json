@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\97250\\Desktop\\projects\\GamesServer\\GamesServer\\GamesServer.csproj": {}
+    "C:\\Users\\97250\\Desktop\\storyIt\\StoryIt-AI\\GamesServer\\GamesServer\\GamesServer.csproj": {}
   },
   "projects": {
-    "C:\\Users\\97250\\Desktop\\projects\\GamesServer\\GamesServer\\GamesServer.csproj": {
+    "C:\\Users\\97250\\Desktop\\storyIt\\StoryIt-AI\\GamesServer\\GamesServer\\GamesServer.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\97250\\Desktop\\projects\\GamesServer\\GamesServer\\GamesServer.csproj",
+        "projectUniqueName": "C:\\Users\\97250\\Desktop\\storyIt\\StoryIt-AI\\GamesServer\\GamesServer\\GamesServer.csproj",
         "projectName": "GamesServer",
-        "projectPath": "C:\\Users\\97250\\Desktop\\projects\\GamesServer\\GamesServer\\GamesServer.csproj",
+        "projectPath": "C:\\Users\\97250\\Desktop\\storyIt\\StoryIt-AI\\GamesServer\\GamesServer\\GamesServer.csproj",
         "packagesPath": "C:\\Users\\97250\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\97250\\Desktop\\projects\\GamesServer\\GamesServer\\obj\\",
+        "outputPath": "C:\\Users\\97250\\Desktop\\storyIt\\StoryIt-AI\\GamesServer\\GamesServer\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

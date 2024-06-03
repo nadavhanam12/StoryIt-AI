@@ -8,6 +8,7 @@
         GuessersPickCard = 3,
         GuessersGuess = 4,
         RevealTellerCard = 5,
-        GameOver = 6,
+        RevealScoes = 6,
+        GameOver = 7,
     }
 }

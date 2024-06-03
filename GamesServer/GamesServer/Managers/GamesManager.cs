@@ -16,6 +16,8 @@ namespace GamesServer.Managers
         public List<Game> GetAllLobbies();
         public Game StartNextTurn(int userId);
         public Game ReconnectUserToGame(int userId);
+        public Game GetGameByUserId(int userId);
+
     }
     public class GamesManager : IGamesManager
     {
@@ -24,7 +26,7 @@ namespace GamesServer.Managers
         ILogger<IGamesManager> _logger;
         IConfiguration _configuration;
         private int IdCounter = 1;
-        private int cardsCount = 40;
+        private int cardsCount = 33;
         public GamesManager(ILogger<IGamesManager> logger,
             IConfiguration configuration)
         {
@@ -119,6 +121,28 @@ namespace GamesServer.Managers
                 _logger.LogError($"userId={action.UserId} couldn't be found in any existing game");
                 return null;
             }
+            if (game.State == GameState.RevealScoes)
+            {
+                game.Players.Find(p => p.UserId == action.UserId).TurnCardId = 1;
+                if (!game.Players.Any(p => p.TurnCardId == -1))
+                {
+                    StartNextTurn(action.UserId); // need to send current userId, and adjust startnextturn function
+                }
+                return game;
+            }
+            if (game.State == GameState.RevealTellerCard)
+            {
+                game.Players.Find(p => p.UserId == action.UserId).TurnCardId = 1;
+                if (!game.Players.Any(p => p.TurnCardId == -1))
+                {
+                    game.State = GameState.RevealScoes;
+                    foreach (Player p in game.Players)
+                    {
+                        p.TurnCardId = -1;
+                    }
+                }
+                return game;
+            }
             int readyPlayers = game.Players.Where(p => p.TurnCardId != -1).Count(); //players who picked a card for the turn.
             
             Player player = game.Players.FirstOrDefault(p => p.UserId == action.UserId);
@@ -172,8 +196,9 @@ namespace GamesServer.Managers
                     {
                         if (p.Score >= _configuration.GetValue<int>("WinningPoints"))
                         {
-                            game.State = GameState.GameOver;
+                            //game.State = GameState.GameOver;
                         }
+                        p.TurnCardId = -1;
                     }
                 }
             }
@@ -227,7 +252,7 @@ namespace GamesServer.Managers
             List<int> deck = new List<int>();
             for (int i = 0; i < cardsCount; i++)
             {
-                deck.Add(i);
+                deck.Add(i + 1);
             }
             game.Deck = Shuffle(deck);
             int handSize = _configuration.GetValue<int>("HandSize");
@@ -285,11 +310,6 @@ namespace GamesServer.Managers
                 _logger.LogError($"(StartNextTurn) couldn't find game with userId={userId}");
                 return null;
             }
-            if (game.MakerId != userId)
-            {
-                _logger.LogError($"(StartNextTurn) userId={userId} isn't the Game Maker");
-                return null;
-            }
             game.State = GameState.TellerPickCard;
             int index = game.Players.FindIndex(p => p.UserId == game.TellerId);
             game.TellerId = game.Players[(index + 1) % game.Players.Count].UserId;
@@ -311,6 +331,11 @@ namespace GamesServer.Managers
                 game.Players.FirstOrDefault(p => p.UserId == userId).Connected = true;
             }
             return game;
+        }
+
+        public Game GetGameByUserId(int userId)
+        {
+            return _games.FirstOrDefault(g => g.Players.Any(p => p.UserId == userId));
         }
     }
 }

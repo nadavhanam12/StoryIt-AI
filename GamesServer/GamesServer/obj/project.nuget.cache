@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "mrzwoxWq3U7gT9mOT1zA/Ndi/jU4H8P0ay8/n6GWnIFpP2Iwof9mRqug71PWxiZl1/byZRxNnT9oWNmPQhHqwQ==",
+  "dgSpecHash": "zdDazLep2pXKHP93p6oDpbX6xivB9VvoTq247s9Sc/iyTs9r3fHeDBhb5dl2P9bgOF3hSGrfBaUiMx35YV147g==",
   "success": true,
-  "projectFilePath": "C:\\Users\\97250\\Desktop\\projects\\GamesServer\\GamesServer\\GamesServer.csproj",
+  "projectFilePath": "C:\\Users\\97250\\Desktop\\storyIt\\StoryIt-AI\\GamesServer\\GamesServer\\GamesServer.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\97250\\.nuget\\packages\\humanizer.core\\2.8.26\\humanizer.core.2.8.26.nupkg.sha512",
     "C:\\Users\\97250\\.nuget\\packages\\microsoft.entityframeworkcore\\6.0.3\\microsoft.entityframeworkcore.6.0.3.nupkg.sha512",

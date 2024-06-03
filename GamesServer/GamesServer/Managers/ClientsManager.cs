@@ -8,6 +8,7 @@ namespace GamesServer.Managers
         public void UserDisconnected (string connectionId);
         public WSClient GetClient(int userId);
         public WSClient GetClientByConnectionId(string connectionId);
+        public List<WSClient> GetConnectedClients();
     }
     public class ClientsManager : IClientsManager
     {
@@ -40,6 +41,11 @@ namespace GamesServer.Managers
                 return null;
             }
             return client;
+        }
+
+        public List<WSClient> GetConnectedClients()
+        {
+            return Clients;
         }
 
         public void UserConnected(int userId, string displayname, string connectionId)

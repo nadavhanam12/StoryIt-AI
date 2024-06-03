@@ -1,0 +1,11 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\Data",
+    "\\GamesServer",
+    "\\GamesServer\\GamesServer",
+    "\\GamesServer\\GamesServer\\Managers"
+  ],
+  "SelectedNode": "\\GamesServer\\GamesServer\\Managers\\GamesManager.cs",
+  "PreviewInSolutionExplorer": false
+}
