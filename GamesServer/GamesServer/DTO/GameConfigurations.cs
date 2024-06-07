@@ -2,6 +2,7 @@
 
 namespace GamesServer.DTO
 {
+    [Serializable]
     public class GameConfigurations
     {
         public int PlayerId { get; set; }

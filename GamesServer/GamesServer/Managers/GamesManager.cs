@@ -222,11 +222,11 @@ namespace GamesServer.Managers
                 if (!existsInHand)
                 {
                     _logger.LogWarning($"userId={action.UserId} chose cardId={action.CardId} which isn't in his hand");
-                    return null;
+                    //return null;
                 }
                 player.TurnCardId = action.CardId;
-                player.CardIds.Remove(action.CardId);
-                Draw(game, player);
+                //player.CardIds.Remove(action.CardId);
+                //Draw(game, player);
                 if (game.State == GameState.TellerPickCard) // after teller pick the rest of the players need to pick.
                 {
                     game.State = GameState.GuessersPickCard;

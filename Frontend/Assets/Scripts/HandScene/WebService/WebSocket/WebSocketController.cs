@@ -3,11 +3,13 @@ using UnityEngine;
 using System;
 using System.Text;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 public class WebSocketController : IWebSocket
 {
     //private const string ServerURL = "ws://10.0.0.22:5001";
-    private const string ServerURL = "ws://localhost:8080";
+    private const string ServerURL = "wss://localhost:7212/clientsHub";
+    private const string TERMINATION = "";
 
     private WebSocket m_webSocket;
     WebService m_webService;
@@ -29,7 +31,9 @@ public class WebSocketController : IWebSocket
 
     void OnWebSocketOpen(object sender, System.EventArgs e)
     {
-        Debug.Log("WebSocket connected!");
+        string message = "{\"protocol\": \"json\", \"version\": 1}" + TERMINATION;
+        Debug.Log("WebSocket connected: " + message);
+        m_webSocket.Send(message);
     }
 
     void OnWebSocketMessage(object sender, MessageEventArgs e)
@@ -42,10 +46,6 @@ public class WebSocketController : IWebSocket
             NotificationData notificationData = GenerateNotificationData(message);
             Debug.Log("Received message: " + notificationData.Type.ToString());
 
-            // GameConfiguarations gameConfiguarations = (GameConfiguarations)notificationData.Args;
-            // Debug.Log("Received message: " + gameConfiguarations.PlayersData);
-            // Debug.Log("Received message: " + gameConfiguarations.Cards);
-
             m_webService.OnNotificationRecived(notificationData);
         }
         catch (Exception ex)
@@ -56,8 +56,10 @@ public class WebSocketController : IWebSocket
 
     NotificationData GenerateNotificationData(string message)
     {
+        JObject obj = JObject.Parse(message.Split(new string[] { TERMINATION }, StringSplitOptions.None)[0]);
+        string data = obj["target"]?.ToString();
         NotificationData notificationData =
-                        JsonConvert.DeserializeObject<NotificationData>(message);
+                        JsonConvert.DeserializeObject<NotificationData>(data);
         string args = notificationData.Args.ToString();
 
         switch (notificationData.Type)
@@ -65,8 +67,11 @@ public class WebSocketController : IWebSocket
             case NotificationType.InitialInfo:
                 notificationData.Args = JsonConvert.DeserializeObject<GameConfiguarations>(args);
                 break;
+            case NotificationType.StateNaratorChoosingCard:
+                notificationData.Args = JsonConvert.DeserializeObject<StateNaratorChoosingCardData>(args);
+                break;
             case NotificationType.NaratorChooseCard:
-                //notificationData.Args = JsonConvert.DeserializeObject<NaratorChooseCardData>(args);
+                notificationData.Args = JsonConvert.DeserializeObject<PlayerChooseCardData>(args);
                 break;
             case NotificationType.StateChoosingCard:
                 //notificationData.Args = JsonConvert.DeserializeObject<StateChoosingCardData>(args);
@@ -81,13 +86,13 @@ public class WebSocketController : IWebSocket
                 notificationData.Args = JsonConvert.DeserializeObject<PlayerGuessCardData>(args);
                 break;
             case NotificationType.StateShowingResults:
-                //notificationData.Args = JsonConvert.DeserializeObject<StateShowingResultsData>(args);
+                notificationData.Args = JsonConvert.DeserializeObject<StateShowingResultsData>(args);
                 break;
             case NotificationType.PlayerApproveResults:
-                //notificationData.Args = JsonConvert.DeserializeObject<PlayerApproveResultsData>(args);
+                notificationData.Args = JsonConvert.DeserializeObject<PlayerApproveResultsData>(args);
                 break;
             case NotificationType.StateShowingLeaderboard:
-                //notificationData.Args = JsonConvert.DeserializeObject<StateShowingLeaderboardData>(args);
+                notificationData.Args = JsonConvert.DeserializeObject<StateShowingLeaderboardData>(args);
                 break;
             default:
                 throw new ArgumentException("Invalid NotificationType: " + notificationData.Type);
@@ -102,13 +107,13 @@ public class WebSocketController : IWebSocket
 
     void OnWebSocketClose(object sender, CloseEventArgs e)
     {
-        Debug.Log("WebSocket closed with reason: " + e.Reason);
+        Debug.Log("WebSocket closed with reason: " + JsonConvert.SerializeObject(e));
     }
 
     // Method to send a message via WebSocket
     public void PostMessage(NotificationData notificationData)
     {
-        string jsonMessage = JsonConvert.SerializeObject(notificationData);
+        string jsonMessage = $"{{\"type\": 1, \"target\": \"SendAction\", \"arguments\": [{JsonConvert.SerializeObject(notificationData)}]}}" + TERMINATION;
         m_webSocket.Send(jsonMessage);
     }
 

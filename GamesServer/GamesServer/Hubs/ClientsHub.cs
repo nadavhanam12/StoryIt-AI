@@ -1,13 +1,10 @@
 ﻿using Microsoft.AspNetCore.SignalR;
 using GamesServer.Managers;
 using GamesServer.Models;
-using System;
-using System.Threading;
 using GamesServer.Enums;
 using GamesServer.DTO;
 using static GamesServer.DTO.StateShowingLeaderboardData;
-using System.Diagnostics;
-using System.Collections.Generic;
+using System.Text.Json;
 
 namespace GamesServer.Hubs
 {
@@ -44,7 +41,7 @@ namespace GamesServer.Hubs
             }
             await Groups.RemoveFromGroupAsync(Context.ConnectionId, LOBYGROUP);
             await Groups.AddToGroupAsync(Context.ConnectionId, game.GameId.ToString());
-            await Clients.Group(game.GameId.ToString()).SendAsync("CreatedGame", game);
+            //await Clients.Group(game.GameId.ToString()).SendAsync("CreatedGame", game);
         }
 
         public override async Task OnDisconnectedAsync(Exception? exception)
@@ -66,7 +63,7 @@ namespace GamesServer.Hubs
                 }
                 else //tell other players in the game a player left the game. (room or activated game)
                 {
-                    await Clients.Groups(game.GameId.ToString()).SendAsync("CreatedGame", game);
+                    //await Clients.Groups(game.GameId.ToString()).SendAsync("CreatedGame", game);
                 }
 
             }
@@ -107,13 +104,16 @@ namespace GamesServer.Hubs
             {
                 return;
             }
+            NotificationData notificationData;
             switch (game.State)
             {
                 case GameState.TellerPickCard:
-                    await Clients.Group(game.GameId.ToString()).SendAsync(NotificationType.StateNaratorChoosingCard.ToString(), new StateNaratorChoosingCardData { NaratorPlayerId = game.TellerId });
+                    notificationData = new NotificationData(NotificationType.StateNaratorChoosingCard, new StateNaratorChoosingCardData { NaratorPlayerId = game.TellerId });
+                    await Clients.Group(game.GameId.ToString()).SendAsync(JsonSerializer.Serialize(notificationData));
                     break;
                 case GameState.GuessersPickCard:
-                    await Clients.Group(game.GameId.ToString()).SendAsync(NotificationType.StateChoosingCard.ToString(), new StateChoosingCard {  });
+                    notificationData = new NotificationData(NotificationType.StateChoosingCard, new StateChoosingCard { });
+                    await Clients.Group(game.GameId.ToString()).SendAsync(JsonSerializer.Serialize(notificationData));
                     break;
                 case GameState.GuessersGuess:
                     List<GuessingCardData> list = new List<GuessingCardData>();
@@ -123,17 +123,20 @@ namespace GamesServer.Hubs
                     }
                     Shuffle(list);
                     StateGuessingCardData stateData = new StateGuessingCardData(list);
-                    await Clients.Group(game.GameId.ToString()).SendAsync(NotificationType.StateGuessingCard.ToString(), stateData);
+                    notificationData = new NotificationData(NotificationType.StateGuessingCard, stateData);
+                    await Clients.Group(game.GameId.ToString()).SendAsync(JsonSerializer.Serialize(notificationData));
                     break;
                 case GameState.RevealTellerCard:
                     Player teller = game.Players.FirstOrDefault(p => p.UserId == game.TellerId);
-                    await Clients.Group(game.GameId.ToString()).SendAsync(NotificationType.StateShowingResults.ToString(), 
-                        new StateShowingResultsData(teller.TurnCardId, game.Players.Where( p => p.UserId != game.TellerId).Select(p => 
-                        new PlayerGuessCardData { CardId = p.GuessCardId, PlayerId = p.UserId, HitRelativePositionX = 0, HitRelativePositionY = 0 }).ToList()));
+                    StateShowingResultsData stateShowingResultData = new StateShowingResultsData(teller.TurnCardId, game.Players.Where(p => p.UserId != game.TellerId).Select(p =>
+                        new PlayerGuessCardData { CardId = p.GuessCardId, PlayerId = p.UserId, HitRelativePositionX = 0, HitRelativePositionY = 0 }).ToList());
+                    notificationData = new NotificationData(NotificationType.StateShowingResults, stateShowingResultData);
+                    await Clients.Group(game.GameId.ToString()).SendAsync(JsonSerializer.Serialize(notificationData));
                     break;
                 case GameState.RevealScoes:
                     StateShowingLeaderboardData data = new StateShowingLeaderboardData(game.Players.Select(p => new PlayerScore(p.UserId, p.Score)).ToList());
-                    await Clients.Group(game.GameId.ToString()).SendAsync(NotificationType.StateShowingLeaderboard.ToString(), data);
+                    notificationData = new NotificationData(NotificationType.StateShowingLeaderboard, data);
+                    await Clients.Group(game.GameId.ToString()).SendAsync(JsonSerializer.Serialize(notificationData));
                     break;
                 default:
                     _logger.LogError("MakeAction: couldn't find valid Game State: " + game.State.ToString());
@@ -159,7 +162,7 @@ namespace GamesServer.Hubs
             }
             await Groups.AddToGroupAsync(Context.ConnectionId, game.GameId.ToString());
             await Groups.RemoveFromGroupAsync(Context.ConnectionId, LOBYGROUP);
-            await Clients.Client(Context.ConnectionId).SendAsync("CreatedGame", game);
+            //await Clients.Client(Context.ConnectionId).SendAsync("CreatedGame", game);
             List<Game> lobbies = _gamesManager.GetAllLobbies();
             await Clients.Group(LOBYGROUP).SendAsync("Lobbies", lobbies);
         }
@@ -177,7 +180,7 @@ namespace GamesServer.Hubs
             else
             {
                 await Groups.AddToGroupAsync(Context.ConnectionId, alreadyExistingGame.GameId.ToString());
-                await Clients.Group(alreadyExistingGame.GameId.ToString()).SendAsync("CreatedGame", alreadyExistingGame);
+                //await Clients.Group(alreadyExistingGame.GameId.ToString()).SendAsync("CreatedGame", alreadyExistingGame);
             }
         }
 
@@ -189,22 +192,26 @@ namespace GamesServer.Hubs
                 _logger.LogWarning($"StartGame failed. userId={userId}");
                 return;
             }
+            List<int> dummuCardIds = new List<int>{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11};
             game.Players.ForEach(async p =>
             {
                 GameConfigurations gConf = new GameConfigurations
                 {
                     PlayerId = p.UserId,
-                    Cards = p.CardIds.Select(c => new CardData { Id = c, Picture = { }, PictureByteArray = { } }).ToArray(),
+                    Cards = dummuCardIds.Select(c => new CardData { Id = c, Picture = { }, PictureByteArray = { } }).ToArray(),
                     PlayersData = game.Players.Select(player => new PlayerData { Id = player.UserId, Avatar = { }, AvateByteArray = { }, Color = System.Drawing.Color.Black, ColorString = "Black", Name = player.Name }).ToArray()
                     //Cards = { },
                     //PlayersData = { }
                 };
-                await Clients.Client(_clientsManager.GetClient(p.UserId).ConnectionId).SendAsync(NotificationType.InitialInfo.ToString(), gConf);
+                NotificationData gCongData = new NotificationData(NotificationType.InitialInfo, gConf);
+                await Clients.Client(_clientsManager.GetClient(p.UserId).ConnectionId).SendAsync(JsonSerializer.Serialize(gCongData));
+
             });
             List<Game> lobbies = _gamesManager.GetAllLobbies();
-            await Clients.Group(LOBYGROUP).SendAsync("Lobbies", lobbies);
+            //await Clients.Group(LOBYGROUP).SendAsync("Lobbies", lobbies);
             Thread.Sleep(1000);
-            await Clients.Group(game.GameId.ToString()).SendAsync(NotificationType.StateNaratorChoosingCard.ToString(), new StateNaratorChoosingCardData { NaratorPlayerId = game.TellerId});
+            NotificationData stateNaratorChooseCardData = new NotificationData(NotificationType.StateNaratorChoosingCard, new StateNaratorChoosingCardData { NaratorPlayerId = game.TellerId });
+            await Clients.Group(game.GameId.ToString()).SendAsync(JsonSerializer.Serialize(stateNaratorChooseCardData));
         }
 
         public async Task NaratorChooseCard(PlayerChooseCardData data)
@@ -215,7 +222,8 @@ namespace GamesServer.Hubs
                 _logger.LogError("NaratorChooseCard: couldn't find game with userId: " + data.PlayerId);
                 return;
             }
-            await Clients.Group(game.GameId.ToString()).SendAsync(NotificationType.NaratorChooseCard.ToString(), data);
+            NotificationData notificationData = new NotificationData(NotificationType.NaratorChooseCard, data);
+            await Clients.Group(game.GameId.ToString()).SendAsync(JsonSerializer.Serialize(notificationData));
             await MakeAction(new GameAction { CardId = data.CardId, UserId = data.PlayerId }, true);
         }
         public async Task PlayerChooseCard(PlayerChooseCardData data)
@@ -226,11 +234,12 @@ namespace GamesServer.Hubs
                 _logger.LogError("PlayerChooseCard: couldn't find game with userId: " + data.PlayerId);
                 return;
             }
-            await Clients.Group(game.GameId.ToString()).SendAsync(NotificationType.PlayerChooseCard.ToString(), data);
+            NotificationData notificationData = new NotificationData(NotificationType.PlayerChooseCard, data);
+            await Clients.Group(game.GameId.ToString()).SendAsync(JsonSerializer.Serialize(notificationData));
             bool needToSendAfterAction = !game.Players.Any(p => p.TurnCardId == -1 && p.UserId != data.PlayerId);
             await MakeAction(new GameAction { CardId = data.CardId, UserId = data.PlayerId }, needToSendAfterAction);
         }
-        public async Task PlayerGuessCard(PlayerChooseCardData data)
+        public async Task PlayerGuessCard(PlayerGuessCardData data)
         {
             Game game = _gamesManager.GetGameByUserId(data.PlayerId);
             if (game == null)
@@ -238,7 +247,8 @@ namespace GamesServer.Hubs
                 _logger.LogError("PlayerGuessCard: couldn't find game with userId: " + data.PlayerId);
                 return;
             }
-            await Clients.Group(game.GameId.ToString()).SendAsync(NotificationType.PlayerGuessCard.ToString(), data);
+            NotificationData notificationData = new NotificationData(NotificationType.PlayerGuessCard, data);
+            await Clients.Group(game.GameId.ToString()).SendAsync(JsonSerializer.Serialize(notificationData));
             bool needToSendAfterAction = !game.Players.Any(p => p.GuessCardId == -1 && p.UserId != game.TellerId && p.UserId != data.PlayerId);
             await MakeAction(new GameAction { CardId = data.CardId, UserId = data.PlayerId }, needToSendAfterAction);
         }
@@ -251,7 +261,8 @@ namespace GamesServer.Hubs
                 return;
             }
             bool needToSendAfterAction = !game.Players.Any(p => p.TurnCardId == -1 && p.UserId != data.PlayerId);
-            await Clients.Group(game.GameId.ToString()).SendAsync(NotificationType.PlayerApproveResults.ToString(), data);
+            NotificationData notificationData = new NotificationData(NotificationType.PlayerApproveResults, data);
+            await Clients.Group(game.GameId.ToString()).SendAsync(JsonSerializer.Serialize(notificationData));
             await MakeAction(new GameAction { CardId = -1, UserId = data.PlayerId }, needToSendAfterAction);
         }
         public async Task PlayerApproveLeaderboard(PlayerApproveLeaderboardData data)
@@ -263,7 +274,8 @@ namespace GamesServer.Hubs
                 return;
             }
             bool needToSendAfterAction = !game.Players.Any(p => p.TurnCardId == -1 && p.UserId != data.PlayerId);
-            await Clients.Group(game.GameId.ToString()).SendAsync(NotificationType.PlayerApproveLeaderboard.ToString(), data);
+            NotificationData notificationData = new NotificationData(NotificationType.PlayerApproveLeaderboard, data);
+            await Clients.Group(game.GameId.ToString()).SendAsync(JsonSerializer.Serialize(notificationData));
             await MakeAction(new GameAction { CardId = -1, UserId = data.PlayerId }, needToSendAfterAction);
         }
 
@@ -275,7 +287,7 @@ namespace GamesServer.Hubs
                 _logger.LogWarning($"StartNextTurn failed. userId={userId}");
                 return;
             }
-            await Clients.Group(game.GameId.ToString()).SendAsync("CreatedGame", game);
+            //await Clients.Group(game.GameId.ToString()).SendAsync("CreatedGame", game);
         }
         public void Shuffle(List<GuessingCardData> list)
         {
@@ -287,6 +299,41 @@ namespace GamesServer.Hubs
                 GuessingCardData value = list[k];
                 list[k] = list[n];
                 list[n] = value;
+            }
+        }
+
+        public async Task SendAction(NotificationData notificationData)
+        {
+            switch (notificationData.Type)
+            {
+                case NotificationType.NaratorChooseCard:
+                    PlayerChooseCardData naratorChooseCardData = JsonSerializer.Deserialize<PlayerChooseCardData>(notificationData.Args.ToString());
+                    _logger.LogInformation($"Received NaratorChooseCard from {naratorChooseCardData.PlayerId}");
+                    await NaratorChooseCard(naratorChooseCardData);
+                    break;
+                case NotificationType.PlayerChooseCard:
+                    PlayerChooseCardData playerChooseCardData = JsonSerializer.Deserialize<PlayerChooseCardData>(notificationData.Args.ToString());
+                    _logger.LogInformation($"Received PlayerChooseCard from {playerChooseCardData.PlayerId}");
+                    await PlayerChooseCard(playerChooseCardData);
+                    break;
+                case NotificationType.PlayerGuessCard:
+                    PlayerGuessCardData playerGuessCardData = JsonSerializer.Deserialize<PlayerGuessCardData>(notificationData.Args.ToString());
+                    _logger.LogInformation($"Received PlayerGuessCard from {playerGuessCardData.PlayerId}");
+                    await PlayerGuessCard(playerGuessCardData);
+                    break;
+                case NotificationType.PlayerApproveResults:
+                    PlayerApproveResultsData playerApproveResultsData = JsonSerializer.Deserialize<PlayerApproveResultsData>(notificationData.Args.ToString());
+                    _logger.LogInformation($"Received PlayerApproveResults from {playerApproveResultsData.PlayerId}");
+                    await PlayerApproveResults(playerApproveResultsData);
+                    break;
+                case NotificationType.PlayerApproveLeaderboard:
+                    PlayerApproveLeaderboardData playerApproveLeaderboardData = JsonSerializer.Deserialize<PlayerApproveLeaderboardData>(notificationData.Args.ToString());
+                    _logger.LogInformation($"Received PlayerApproveResults from {playerApproveLeaderboardData.PlayerId}");
+                    await PlayerApproveLeaderboard(playerApproveLeaderboardData);
+                    break;
+                default:
+                    _logger.LogError("Received unknown notificationType");
+                    break;
             }
         }
     }
