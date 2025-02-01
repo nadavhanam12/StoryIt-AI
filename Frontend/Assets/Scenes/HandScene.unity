@@ -6827,7 +6827,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_notificationEvent: {fileID: 11400000, guid: b6ed4240360fe5d42ba73f5e0a01da8c, type: 2}
-  m_withDummyServer: 1
+  m_withDummyServer: 0
 --- !u!4 &1495449434
 Transform:
   m_ObjectHideFlags: 0

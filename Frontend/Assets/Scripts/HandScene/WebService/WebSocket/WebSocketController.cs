@@ -3,19 +3,22 @@ using UnityEngine;
 using System;
 using System.Text;
 using Newtonsoft.Json;
+using UnityEditor;
 
 public class WebSocketController : IWebSocket
 {
     //private const string ServerURL = "ws://10.0.0.22:5001";
-    private const string ServerURL = "ws://localhost:8080";
+    private const string ServerURL = "ws://localhost:8765";
 
     private WebSocket m_webSocket;
     WebService m_webService;
+
     public void Init(WebService webService)
     {
         m_webService = webService;
         ConnectWebSocket();
     }
+
     private void ConnectWebSocket()
     {
         m_webSocket = new WebSocket(ServerURL);
@@ -57,7 +60,7 @@ public class WebSocketController : IWebSocket
     NotificationData GenerateNotificationData(string message)
     {
         NotificationData notificationData =
-                        JsonConvert.DeserializeObject<NotificationData>(message);
+            JsonConvert.DeserializeObject<NotificationData>(message);
         string args = notificationData.Args.ToString();
 
         switch (notificationData.Type)
@@ -92,6 +95,7 @@ public class WebSocketController : IWebSocket
             default:
                 throw new ArgumentException("Invalid NotificationType: " + notificationData.Type);
         }
+
         return notificationData;
     }
 
@@ -103,6 +107,7 @@ public class WebSocketController : IWebSocket
     void OnWebSocketClose(object sender, CloseEventArgs e)
     {
         Debug.Log("WebSocket closed with reason: " + e.Reason);
+        EditorApplication.ExitPlaymode();
     }
 
     // Method to send a message via WebSocket
