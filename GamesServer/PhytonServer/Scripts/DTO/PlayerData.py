@@ -1,4 +1,6 @@
-
+import base64
+import glob
+import os
 import random
 from typing import List
 import random
@@ -9,8 +11,8 @@ class PlayerData:
     def __init__(self, id, name, color_string,avatar_byte_array):
         self.id = id
         self.name = name
-        self.color_string = color_string  # A string representation of the color, e.g., "#FF0000"
-        self.avatar_byte_array = avatar_byte_array  # A list of bytes (or an empty list for fake data)
+        self.color_string = color_string
+        self.avatar_byte_array = avatar_byte_array
 
     def to_dict(self):
         return {
@@ -25,7 +27,7 @@ def create_init_player_data():
             id=1,
             name="NADAV",
             color_string=get_random_hex_color(),
-            avatar_byte_array=create_random_png_byte_array()
+            avatar_byte_array=get_random_avatar_byte_array_string()
         )
 
 def create_random_player_data(id:int):
@@ -33,7 +35,7 @@ def create_random_player_data(id:int):
             id=id,
             name=get_random_name(),
             color_string=get_random_hex_color(),
-            avatar_byte_array=create_random_png_byte_array()
+            avatar_byte_array=get_random_avatar_byte_array_string()
         )
 
 def get_random_name() -> str:
@@ -50,19 +52,20 @@ def get_random_hex_color() -> str:
     return f"#{r:02X}{g:02X}{b:02X}"
 
 
-def create_random_png_byte_array() -> bytes:
-    width, height = 48, 48
-    # Create a new RGB image with the given size
-    image = Image.new("RGB", (width, height))
-    # Generate random pixel data
-    pixels = [
-        (random.randint(0, 255), random.randint(0, 255), random.randint(0, 255))
-        for _ in range(width * height)
-    ]
-    image.putdata(pixels)
-    # Save the image into a bytes buffer in PNG format
-    buffer = BytesIO()
-    image.save(buffer, format="PNG")
-    png_byte_array = buffer.getvalue()
-    buffer.close()
-    return png_byte_array
+def get_random_avatar_byte_array_string() -> str:
+    avatar_png_folder="Data/PlayerAvatarPngs"
+    png_files = glob.glob(os.path.join(avatar_png_folder, "*.png"))
+    if not png_files:
+        print(f"No PNG files found in folder: {png_files}")
+        return
+
+    random_png_path = random.choice(png_files)
+    try:
+        # Open the file in binary mode and read its contents
+        with open(random_png_path, "rb") as file:
+            png_bytes = file.read()
+        # Convert the PNG bytes to a Base64 encoded string
+        png_base64_str = base64.b64encode(png_bytes).decode('utf-8')
+        return png_base64_str
+    except Exception as e:
+        print(f"Error processing file {e}")

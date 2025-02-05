@@ -4,6 +4,8 @@ import uuid
 from typing import Dict
 import websockets
 from websockets import ServerConnection
+
+from Scripts.DTO.NotificationData import NotificationData
 from Scripts.Events.EventTypes import EventTypes, event_emitter
 
 connected_clients :Dict[str,ServerConnection]={}
@@ -31,7 +33,6 @@ def on_client_connected(websocket):
     websocket.connection_id = connection_id
     print(f"A client connected with connection_id: {connection_id}")
     connected_clients[connection_id]=websocket
-    print(f"emit {str(EventTypes.PLAYER_CONNECTED)} con_id: {connection_id}")
     event_emitter.emit(str(EventTypes.PLAYER_CONNECTED),connection_id)
 
 def on_client_disconnected(websocket,error=None):
@@ -47,25 +48,16 @@ def on_client_disconnected(websocket,error=None):
 def on_message_received(message):
     print(f"Received message from client: {message}")
 
-async def send_message_to_client(connection_id,data):
+async def send_message_to_client(connection_id,data:NotificationData):
     global connected_clients
     if connection_id not in connected_clients:
-        print (f"connection id in in connected clients dict: {connection_id}")
+        #print (f"Couldnt find connection id in connected clients dict: {connection_id}")
         return
 
     client = connected_clients[connection_id]
-    message = json.dumps(data)
+    message = json.dumps(data.to_dict())
+    #print(message)
     try:
         await client.send(message)
     except websockets.exceptions.ConnectionClosed:
         print(f"Tried to send message to a closed connection. {connection_id}")
-
-async def send_message_to_all(data):
-    global connected_clients
-    message = json.dumps(data)
-    for client in connected_clients:
-        try:
-            await client.send(message)
-        except websockets.exceptions.ConnectionClosed:
-            print(f"Tried to send message to a closed connection.")
-

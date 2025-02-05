@@ -10,11 +10,10 @@ from Scripts.Events.EventTypes import EventTypes, event_emitter
 
 players_needed_for_game:int =4
 players :Dict[str,PlayerData]={}
-cards :Dict[str,CardData]={}
+cards :[CardData]={}
 
 async def open_game_for_players():
     global cards
-    print(f"register "+str(EventTypes.PLAYER_CONNECTED))
     cards=create_cards_data()
     await open_web_socket()
 
@@ -24,7 +23,6 @@ def SetFakePlayersData(connection_id):
     players["fake_connection 2"] = create_random_player_data(2)
     players["fake_connection 3"] = create_random_player_data(3)
     players["fake_connection 4"] = create_random_player_data(4)
-    print("SetFakePlayersData")
 
 @event_emitter.on(str(EventTypes.PLAYER_CONNECTED))
 async def on_player_connected(connection_id):
@@ -45,6 +43,6 @@ async def on_player_disconnected(connection_id):
 async def send_game_configurations():
     for player_connection_id in players:
         cur_player_data=players[player_connection_id]
-        game_config = GameConfigurations(cur_player_data.id,players,cards)
+        game_config = GameConfigurations(cur_player_data.id,players.values(),cards)
         initial_notification_data = NotificationData(NotificationTypes.INITIAL_INFO, game_config)
         await send_message_to_client(player_connection_id,initial_notification_data)

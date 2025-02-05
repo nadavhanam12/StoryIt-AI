@@ -1,3 +1,5 @@
+from Scripts.DTO.PlayerData import get_random_avatar_byte_array_string
+
 
 class CardData:
     def __init__(self, id,picture_byte_array):
@@ -13,6 +15,6 @@ class CardData:
 def create_cards_data():
     fake_cards = []
     for i in range(1, 41):
-        card = CardData(id=i, picture_byte_array=[])
-        fake_cards.append(card.to_dict())
+        card = CardData(i, get_random_avatar_byte_array_string())
+        fake_cards.append(card)
     return fake_cards

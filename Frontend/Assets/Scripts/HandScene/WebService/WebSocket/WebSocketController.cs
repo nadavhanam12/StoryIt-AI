@@ -38,7 +38,7 @@ public class WebSocketController : IWebSocket
     void OnWebSocketMessage(object sender, MessageEventArgs e)
     {
         try
-        {
+        {   
             string message = Encoding.UTF8.GetString(e.RawData);
             Debug.Log(message);
 
@@ -53,7 +53,7 @@ public class WebSocketController : IWebSocket
         }
         catch (Exception ex)
         {
-            Debug.Log("Error OnWebSocketMessage: " + ex.Message);
+            Debug.LogError("Error OnWebSocketMessage: " + ex.Message);
         }
     }
 
