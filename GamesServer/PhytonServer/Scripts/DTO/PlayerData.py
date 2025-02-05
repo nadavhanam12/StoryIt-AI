@@ -1,11 +1,9 @@
 import base64
 import glob
 import os
-import random
 from typing import List
 import random
-from PIL import Image
-from io import BytesIO
+
 
 class PlayerData:
     def __init__(self, id, name, color_string,avatar_byte_array):
@@ -22,21 +20,29 @@ class PlayerData:
             "AvatarByteArray": self.avatar_byte_array
         }
 
-def create_init_player_data():
-    return PlayerData(
-            id=1,
-            name="NADAV",
-            color_string=get_random_hex_color(),
-            avatar_byte_array=get_random_avatar_byte_array_string()
-        )
+def get_fake_players_data(connection_id):
+    players= \
+        {connection_id: get_init_player_data(),
+         "fake_connection 2": get_random_player_data(2),
+        "fake_connection 3": get_random_player_data(3),
+         "fake_connection 4": get_random_player_data(4)}
+    return players
 
-def create_random_player_data(id:int):
+def get_init_player_data():
     return PlayerData(
-            id=id,
-            name=get_random_name(),
-            color_string=get_random_hex_color(),
-            avatar_byte_array=get_random_avatar_byte_array_string()
-        )
+        id=1,
+        name="NADAV",
+        color_string=get_random_hex_color(),
+        avatar_byte_array=get_random_avatar_byte_array_string()
+    )
+
+def get_random_player_data(id: int):
+    return PlayerData(
+        id=id,
+        name=get_random_name(),
+        color_string=get_random_hex_color(),
+        avatar_byte_array=get_random_avatar_byte_array_string()
+    )
 
 def get_random_name() -> str:
     names: List[str] = [

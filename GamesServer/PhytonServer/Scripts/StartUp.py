@@ -1,9 +1,14 @@
 import asyncio
-from GameManager import open_game_for_players
+import tracemalloc
+
+from Scripts.GameManager import GameManager
 
 
 async def main():
-    await open_game_for_players()
+    tracemalloc.start()
+
+    game_manager = GameManager()
+    await game_manager.open_game_for_players()
 
 
 # Entry point

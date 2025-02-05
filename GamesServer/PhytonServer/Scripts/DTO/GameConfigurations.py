@@ -1,5 +1,3 @@
-from Scripts.DTO.CardData import CardData
-from Scripts.DTO.PlayerData import PlayerData
 
 
 class GameConfigurations:
