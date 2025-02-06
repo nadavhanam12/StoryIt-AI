@@ -2,6 +2,7 @@ using WebSocketSharp;
 using UnityEngine;
 using System;
 using System.Text;
+using Cysharp.Threading.Tasks;
 using Newtonsoft.Json;
 using UnityEditor;
 
@@ -99,15 +100,17 @@ public class WebSocketController : IWebSocket
         return notificationData;
     }
 
-    void OnWebSocketError(object sender, WebSocketSharp.ErrorEventArgs e)
+    async void OnWebSocketError(object sender, WebSocketSharp.ErrorEventArgs e)
     {
+        await UniTask.SwitchToMainThread();
         Debug.LogError("WebSocket error: " + e.Message);
         Debug.LogError("Exit play mode");
         EditorApplication.ExitPlaymode();
     }
 
-    void OnWebSocketClose(object sender, CloseEventArgs e)
+    async void OnWebSocketClose(object sender, CloseEventArgs e)
     {
+        await UniTask.SwitchToMainThread();
         Debug.Log("WebSocket closed with reason: " + e.Reason);
         Debug.LogError("Exit play mode");
         EditorApplication.ExitPlaymode();
