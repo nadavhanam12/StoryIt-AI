@@ -38,7 +38,7 @@ public class WebSocketController : IWebSocket
     void OnWebSocketMessage(object sender, MessageEventArgs e)
     {
         try
-        {   
+        {
             string message = Encoding.UTF8.GetString(e.RawData);
             Debug.Log(message);
 
@@ -102,11 +102,14 @@ public class WebSocketController : IWebSocket
     void OnWebSocketError(object sender, WebSocketSharp.ErrorEventArgs e)
     {
         Debug.LogError("WebSocket error: " + e.Message);
+        Debug.LogError("Exit play mode");
+        EditorApplication.ExitPlaymode();
     }
 
     void OnWebSocketClose(object sender, CloseEventArgs e)
     {
         Debug.Log("WebSocket closed with reason: " + e.Reason);
+        Debug.LogError("Exit play mode");
         EditorApplication.ExitPlaymode();
     }
 

@@ -4,9 +4,9 @@ import uuid
 from typing import Dict
 import websockets
 from websockets import ServerConnection
-
 from Scripts.DTO.NotificationData import NotificationData
 from Scripts.Events.EventTypes import EventTypes, event_emitter
+
 
 class Server:
     connected_clients: Dict[str, ServerConnection] = {}
@@ -59,3 +59,7 @@ class Server:
             await client.send(message)
         except websockets.exceptions.ConnectionClosed:
             print(f"Tried to send message to a closed connection. {connection_id}")
+
+
+
+server = Server()
