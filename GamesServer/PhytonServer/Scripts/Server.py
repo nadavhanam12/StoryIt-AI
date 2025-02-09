@@ -1,6 +1,7 @@
 import asyncio
 import json
 import uuid
+from random import random
 from typing import Dict
 import websockets
 from websockets import ServerConnection
@@ -29,37 +30,40 @@ class Server:
             self.on_client_disconnected(websocket)
 
     def on_client_connected(self,websocket):
-        connection_id = str(uuid.uuid4())
-        websocket.connection_id = connection_id
-        print(f"A client connected with connection_id: {connection_id}")
-        self.connected_clients[connection_id]=websocket
-        event_emitter.emit(str(EventTypes.PLAYER_CONNECTED),connection_id)
+        player_id = len(self.connected_clients)+1
+        websocket.player_id = player_id
+        print(f"A client connected with player_id: {player_id}")
+        self.connected_clients[player_id]=websocket
+        event_emitter.emit(str(EventTypes.PLAYER_CONNECTED),player_id)
 
     def on_client_disconnected(self,websocket,error=None):
         if error is None:
-            print(f"Client disconnected gracefully: Connection_id: {websocket.connection_id}")
+            print(f"Client disconnected gracefully: player_id: {websocket.player_id}")
         else:
-            print(f"Client disconnected with error: {error}. Connection_id: {websocket.connection_id}")
-        self.connected_clients.pop(websocket.connection_id, None)
-        event_emitter.emit(str(EventTypes.PLAYER_DISCONNECTED),websocket.connection_id)
+            print(f"Client disconnected with error: {error}. player_id: {websocket.player_id}")
+        self.connected_clients.pop(websocket.player_id, None)
+        event_emitter.emit(str(EventTypes.PLAYER_DISCONNECTED),websocket.player_id)
 
 
     def on_message_received(self,message):
         print(f"Received message from client: {message}")
 
-    async def send_message_to_client(self,connection_id,data:NotificationData):
-        if connection_id not in self.connected_clients:
-            #print (f"Couldnt find connection id in connected clients dict: {connection_id}")
+    async def send_message_to_client(self,player_id,data:NotificationData):
+        if player_id not in self.connected_clients:
+            #print (f"Couldnt find connection id in connected clients dict: {player_id}")
             return
 
-        client = self.connected_clients[connection_id]
+        client = self.connected_clients[player_id]
         message = json.dumps(data.to_dict())
         #print(message)
         try:
             await client.send(message)
         except websockets.exceptions.ConnectionClosed:
-            print(f"Tried to send message to a closed connection. {connection_id}")
+            print(f"Tried to send message to a closed connection. {player_id}")
 
 
+    async def send_message_to_all_clients(self,data:NotificationData):
+        for player_id in self.connected_clients:
+            await self.send_message_to_client(player_id,data)
 
 server = Server()

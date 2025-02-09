@@ -7,6 +7,7 @@ from Scripts.Server import server
 
 class GameManager:
     players_needed_for_game:int =4
+    is_simulated_game:bool = True
     game_loop_controller:GameLoopController
 
 
@@ -24,17 +25,18 @@ class GameManager:
     async def open_server(self):
         await server.open_web_socket()
 
-    async def on_player_connected(self,connection_id):
-        # for testing
-        if len(data_source.players) == 0:
-            data_source.players=get_fake_players_data(connection_id)
+    async def on_player_connected(self,player_id):
+        if (self.is_simulated_game and
+                len(data_source.players) == 0):
+            data_source.players=get_fake_players_data(player_id)
 
         print(f"Total connected players: {len(data_source.players)}")
         if len(data_source.players)==self.players_needed_for_game:
+            data_source.init_game()
             await self.game_loop_controller.start_game_loop()
 
-    async def on_player_disconnected(self,connection_id):
-        data_source.players.pop(connection_id, None)
+    async def on_player_disconnected(self,player_id):
+        data_source.players.pop(player_id, None)
 
 
 

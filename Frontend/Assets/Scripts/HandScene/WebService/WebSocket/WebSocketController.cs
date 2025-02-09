@@ -47,8 +47,8 @@ public class WebSocketController : IWebSocket
             Debug.Log("Received message: " + notificationData.Type.ToString());
 
             // GameConfiguarations gameConfiguarations = (GameConfiguarations)notificationData.Args;
-            // Debug.Log("Received message: " + gameConfiguarations.PlayersData);
-            // Debug.Log("Received message: " + gameConfiguarations.Cards);
+            // Debug.Log("PlayersData.Count: " + gameConfiguarations.PlayersData.Count);
+            // Debug.Log("Cards.Count: " + gameConfiguarations.Cards.Count);
 
             m_webService.OnNotificationRecived(notificationData);
         }
@@ -69,11 +69,14 @@ public class WebSocketController : IWebSocket
             case NotificationType.InitialInfo:
                 notificationData.Args = JsonConvert.DeserializeObject<GameConfiguarations>(args);
                 break;
+            case NotificationType.StateNaratorChoosingCard:
+                notificationData.Args = JsonConvert.DeserializeObject<StateNaratorChoosingCardData>(args);
+                break;
             case NotificationType.NaratorChooseCard:
-                //notificationData.Args = JsonConvert.DeserializeObject<NaratorChooseCardData>(args);
+                notificationData.Args = JsonConvert.DeserializeObject<PlayerChooseCardData>(args);
                 break;
             case NotificationType.StateChoosingCard:
-                //notificationData.Args = JsonConvert.DeserializeObject<StateChoosingCardData>(args);
+                notificationData.Args = null;
                 break;
             case NotificationType.PlayerChooseCard:
                 notificationData.Args = JsonConvert.DeserializeObject<PlayerChooseCardData>(args);
@@ -85,13 +88,13 @@ public class WebSocketController : IWebSocket
                 notificationData.Args = JsonConvert.DeserializeObject<PlayerGuessCardData>(args);
                 break;
             case NotificationType.StateShowingResults:
-                //notificationData.Args = JsonConvert.DeserializeObject<StateShowingResultsData>(args);
+                notificationData.Args = JsonConvert.DeserializeObject<StateShowingResultsData>(args);
                 break;
             case NotificationType.PlayerApproveResults:
-                //notificationData.Args = JsonConvert.DeserializeObject<PlayerApproveResultsData>(args);
+                notificationData.Args = JsonConvert.DeserializeObject<PlayerApproveResultsData>(args);
                 break;
             case NotificationType.StateShowingLeaderboard:
-                //notificationData.Args = JsonConvert.DeserializeObject<StateShowingLeaderboardData>(args);
+                notificationData.Args = JsonConvert.DeserializeObject<StateShowingLeaderboardData>(args);
                 break;
             default:
                 throw new ArgumentException("Invalid NotificationType: " + notificationData.Type);

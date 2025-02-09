@@ -20,17 +20,17 @@ class PlayerData:
             "AvatarByteArray": self.avatar_byte_array
         }
 
-def get_fake_players_data(connection_id):
+def get_fake_players_data(player_id):
     players= \
-        {connection_id: get_init_player_data(),
-         "fake_connection 2": get_random_player_data(2),
-        "fake_connection 3": get_random_player_data(3),
-         "fake_connection 4": get_random_player_data(4)}
+        {player_id: get_init_player_data(player_id),
+         "2222": get_random_player_data("2222"),
+        "3333": get_random_player_data("3333"),
+         "4444": get_random_player_data("4444")}
     return players
 
-def get_init_player_data():
+def get_init_player_data(id: int):
     return PlayerData(
-        id=1,
+        id=id,
         name="NADAV",
         color_string=get_random_hex_color(),
         avatar_byte_array=get_random_avatar_byte_array_string()

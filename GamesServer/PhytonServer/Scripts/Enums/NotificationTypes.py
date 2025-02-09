@@ -20,8 +20,8 @@ def get_notification_type_string(notification_type: NotificationTypes) -> str:
 
 notification_string_mapping = {
     NotificationTypes.INITIAL_INFO.value: "initialInfo",
-    NotificationTypes.STATE_NARATOR_CHOOSING_CARD.value: "stateNarratorChoosingCard",
-    NotificationTypes.NARATOR_CHOOSE_CARD.value: "narratorChooseCard",
+    NotificationTypes.STATE_NARATOR_CHOOSING_CARD.value: "stateNaratorChoosingCard",
+    NotificationTypes.NARATOR_CHOOSE_CARD.value: "naratorChooseCard",
     NotificationTypes.STATE_CHOOSING_CARD.value: "stateChoosingCard",
     NotificationTypes.PLAYER_CHOOSE_CARD.value: "playerChooseCard",
     NotificationTypes.STATE_GUESSING_CARD.value: "stateGuessingCard",
