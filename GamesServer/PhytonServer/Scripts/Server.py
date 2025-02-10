@@ -1,7 +1,5 @@
 import asyncio
 import json
-import uuid
-from random import random
 from typing import Dict
 import websockets
 from websockets import ServerConnection
@@ -46,7 +44,7 @@ class Server:
 
 
     def on_message_received(self,message):
-        print(f"Received message from client: {message}")
+        event_emitter.emit(str(EventTypes.NOTIFICATION_FROM_PLAYER), message)
 
     async def send_message_to_client(self,player_id,data:NotificationData):
         if player_id not in self.connected_clients:
